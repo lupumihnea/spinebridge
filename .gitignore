@@ -2,15 +2,18 @@
 node_modules/
 
 # Build output
+.next/
 dist/
 build/
 .vite/
 coverage/
+tsconfig.tsbuildinfo
 
 # Environment and local config
 .env
 .env.*
 *.local
+.tmp/
 
 # Logs
 *.log

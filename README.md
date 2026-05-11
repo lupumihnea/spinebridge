@@ -1,8 +1,8 @@
 # SpineBridge Live
 
-SpineBridge Live is a high-impact Romanian educational demo app concept for an academic framework about functional recovery communication after traumatic lumbar or thoracolumbar fractures without spinal cord injury or objective neurological deficit.
+SpineBridge Live is a high-impact Romanian educational demo app for an academic framework about functional recovery communication after traumatic lumbar or thoracolumbar fractures without spinal cord injury or objective neurological deficit.
 
-This repository currently contains the product documentation, safety boundaries, live demo script, evaluation rubric, and implementation plan. The app itself has not been built yet.
+The application is a polished Next.js TypeScript demo with Romanian UI, fictional seeded patient profiles, visible safety boundaries, localStorage-only demo state, and a printable consultation brief.
 
 ## Core Boundary
 
@@ -16,18 +16,27 @@ Required visible Romanian boundary for future UI:
 
 ```text
 .
-├── AGENTS.md
-├── README.md
-├── docs/
-│   ├── build_log.md
-│   ├── demo_script.md
-│   ├── evaluation_rubric.md
-│   ├── product_spec.md
-│   ├── repository_plan.md
-│   └── safety_boundaries.md
-├── .editorconfig
-├── .gitattributes
-└── .gitignore
+|-- AGENTS.md
+|-- README.md
+|-- docs/
+|   |-- build_log.md
+|   |-- demo_script.md
+|   |-- evaluation_rubric.md
+|   |-- product_spec.md
+|   |-- repository_plan.md
+|   `-- safety_boundaries.md
+|-- src/
+|   |-- app/
+|   |-- components/
+|   |-- data/
+|   |-- lib/
+|   |-- styles/
+|   |-- tests/
+|   `-- types/
+|-- package.json
+|-- tailwind.config.ts
+|-- tsconfig.json
+`-- vitest.config.ts
 ```
 
 ## Documentation Map
@@ -43,14 +52,25 @@ Required visible Romanian boundary for future UI:
 ## Current Status
 
 - Documentation scaffold: complete
-- Application code: not started
-- Build/test pipeline: not started
-- GitHub remote: pending
+- Application shell: complete
+- Build/test pipeline: complete
+- GitHub remote: `lupumihnea/spinebridge`
+
+## Local Development
+
+```bash
+npm install
+npm run dev
+npm test
+npm run build
+```
+
+The local demo runs at `http://127.0.0.1:3000` when started with the current dev command.
 
 ## Next Implementation Step
 
-Create the app skeleton only after the documentation is accepted. The first implementation should prioritize a deterministic Romanian dashboard with visible safety boundaries on every page.
+Expand the guided simulator interactions while preserving deterministic logic, Romanian UI, fictional data, and visible safety boundaries.
 
 ## License
 
-No license has been selected yet.
+MIT.
