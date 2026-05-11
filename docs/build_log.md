@@ -30,3 +30,27 @@
 - Added `explainWhyNotClearance()` with the required Romanian explanation that progression decisions remain clinical.
 - Added unit tests covering every red flag, sport without clinician text, green educational-only output, banned generated phrases, and worsening trend detection.
 - Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the safety engine changes.
+- Added the interactive Recovery Map page at `/recovery-map` and mirrored it at `/demo`.
+- Built a stage-ready journey visualization from medical assessment through education, self-monitoring, clinical dialogue, graded activity discussion, and functional confidence.
+- Added expandable domain cards with Romanian sections for patient understanding, self-monitoring, clinician questions, and app non-decisions.
+- Added the jury explanation side panel and verified the global safety banner remains visible on the route.
+- Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the Recovery Map changes.
+- Added the Patient Journal module at `/journal` with fictional scenario selection, seeded demo entries, localStorage persistence, reset demo data action, red-flag checkboxes, and an add-entry form.
+- Added educational trend dashboards for pain before/after activity, walking tolerance, sitting tolerance, and fatigue using labels that explicitly avoid clinical clearance.
+- Connected the journal dashboard to the deterministic safety engine and surfaced clinician discussion questions from the latest fictional entry.
+- Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the Patient Journal changes.
+- Added a dramatic but professional Red Flag Trigger panel in the journal that appears immediately when a red-flag checkbox is selected.
+- The trigger panel lists the selected red flags, explains the boundary in plain Romanian, prepares consultation questions, dims non-essential dashboard elements, and includes a demo brief-generation action.
+- Added component tests for the red-flag panel message, exact flag display, consultation questions, brief button, and avoidance of diagnosis/treatment wording inside the generated panel.
+- Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the Red Flag Trigger changes.
+- Added the Teach-Back module at `/teach-back` with four Romanian patient-understanding prompts and an intelligent explanation-assistant interface.
+- Implemented `src/lib/teachBackAnalyzer.ts` with deterministic detection for restriction clarity, red-flag mention, no-pain misconceptions, work/sport confusion, missing clinician dialogue, and overly confident phrasing.
+- Added the required demo example where “Dacă nu mă mai doare, pot merge la sală.” returns the safer Romanian rephrasing about pain absence not implying authorization for complete effort.
+- Added unit tests for teach-back scoring, risky misconception detection, clinician-question generation, and avoidance of progression/treatment advice.
+- Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the Teach-Back changes.
+- Added the Return-to-Work vs Return-to-Sport comparison module at `/work-vs-sport`.
+- Built three Romanian comparison columns for daily activities, work, and sport/gym/demanding activity, each covering typical demands, clinician clarifications, self-monitoring, and app non-decisions.
+- Added an interactive demand selector for office work, driving, prolonged sitting, lifting/carrying, gym training, running, contact sport, and mixed physical work.
+- Added a Decision Boundary graphic explaining that patient-reported data is not medical authorization, while clinician restrictions, lesion context, and follow-up define the clinical decision space.
+- Added content tests for required columns, all eight demand profiles, and non-authorizing safety boundaries.
+- Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the Work vs Sport module.

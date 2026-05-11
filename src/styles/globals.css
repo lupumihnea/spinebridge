@@ -52,6 +52,11 @@ a {
   background: white;
 }
 
+.text-safe-wrap {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
 @media print {
   body {
     background: white;

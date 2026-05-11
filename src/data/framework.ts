@@ -4,7 +4,7 @@ export const frameworkDomains: EducationalDomain[] = [
   {
     id: "diagnostic-safety",
     order: 1,
-    title: "Orientare diagnostică și protecție vertebrală",
+    title: "Orientare diagnostică și siguranță vertebrală",
     academicLabel: "Orientare",
     patientFriendlyMessage:
       "Înțelegi termenii principali ai situației tale și ce semnale trebuie comunicate echipei medicale.",
@@ -31,7 +31,7 @@ export const frameworkDomains: EducationalDomain[] = [
   {
     id: "basic-mobilization",
     order: 2,
-    title: "Mobilizare de bază și autonomie",
+    title: "Mobilizare și autonomie de bază",
     academicLabel: "Autonomie",
     patientFriendlyMessage:
       "Descrii mai clar cum te miști în activități simple și ce sprijin practic apare în rutina zilnică.",
@@ -85,7 +85,7 @@ export const frameworkDomains: EducationalDomain[] = [
   {
     id: "work-activity-sport-dialogue",
     order: 4,
-    title: "Discuție structurată despre muncă, activitate și sport",
+    title: "Revenire la muncă, activitate și sport",
     academicLabel: "Discuție",
     patientFriendlyMessage:
       "Separi întrebările despre muncă, activități cotidiene și sport, pentru că nu sunt aceeași conversație.",
@@ -146,7 +146,7 @@ export const conceptSteps: ConceptStep[] = [
   },
   {
     id: "education",
-    label: "Educație",
+    label: "Educație clară",
     description: "Pacientul înțelege cadrul, termenii și limitele aplicației."
   },
   {
@@ -161,7 +161,7 @@ export const conceptSteps: ConceptStep[] = [
   },
   {
     id: "graded-discussion",
-    label: "Discuție gradată despre activitate",
+    label: "Discuție despre activitate gradată",
     description: "Munca, activitatea cotidiană și sportul sunt separate."
   },
   {
