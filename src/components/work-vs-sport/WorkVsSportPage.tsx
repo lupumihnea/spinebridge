@@ -19,6 +19,7 @@ import {
   Trophy
 } from "lucide-react";
 
+import { EvidenceBoundaryLayer } from "@/components/safety/EvidenceBoundaryLayer";
 import {
   comparisonColumns,
   demandProfiles,
@@ -230,6 +231,10 @@ export function WorkVsSportPage() {
             </p>
           </aside>
         </div>
+      </section>
+
+      <section className="px-4 pt-10 sm:px-6 lg:px-8">
+        <EvidenceBoundaryLayer surface="work-vs-sport" />
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">

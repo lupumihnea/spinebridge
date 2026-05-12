@@ -16,6 +16,8 @@ import {
   UserCheck
 } from "lucide-react";
 
+import { ResearchMaturityLadder } from "@/components/research/ResearchMaturityLadder";
+import { EvidenceBoundaryLayer } from "@/components/safety/EvidenceBoundaryLayer";
 import { conceptSteps, frameworkDomains } from "@/data/framework";
 import { cn } from "@/lib/utils";
 
@@ -99,8 +101,13 @@ export function RecoveryMapPage() {
             <div className="mt-5 rounded-panel border border-signal/20 bg-signal/5 p-4 text-sm font-semibold leading-6 text-signal">
               Deciziile clinice rămân la echipa medicală.
             </div>
+            <ResearchMaturityLadder className="mt-5 shadow-none" compact />
           </aside>
         </div>
+      </section>
+
+      <section className="px-4 pt-10 sm:px-6 lg:px-8">
+        <EvidenceBoundaryLayer surface="recovery-map" />
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

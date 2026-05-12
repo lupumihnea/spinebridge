@@ -4,6 +4,7 @@ import { useMemo, useRef } from "react";
 import { FileText, Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 
+import { EvidenceBoundaryLayer } from "@/components/safety/EvidenceBoundaryLayer";
 import { redFlags } from "@/data/safety";
 import { createConsultationBrief } from "@/lib/brief";
 import type { DemoState, EducationalDomain, PatientScenario } from "@/types/demo";
@@ -41,6 +42,12 @@ export function ConsultationBrief({ patient, domain, state }: ConsultationBriefP
           <span>Tipărește rezumatul</span>
         </button>
       </div>
+
+      <EvidenceBoundaryLayer
+        className="mb-5"
+        compact
+        surface="consultation-brief"
+      />
 
       <article
         className="print-surface rounded-panel border border-ink/10 bg-white p-6 shadow-panel"

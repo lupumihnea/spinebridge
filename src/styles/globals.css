@@ -57,6 +57,11 @@ a {
   word-break: normal;
 }
 
+.print-section {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
 @media print {
   body {
     background: white;
@@ -69,5 +74,16 @@ a {
   .print-surface {
     box-shadow: none !important;
     border: 1px solid #d9dedb;
+  }
+
+  .brief-page {
+    background: white !important;
+  }
+
+  .print-section,
+  .print-surface section,
+  .print-surface table {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 }

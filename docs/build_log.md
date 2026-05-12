@@ -54,3 +54,23 @@
 - Added a Decision Boundary graphic explaining that patient-reported data is not medical authorization, while clinician restrictions, lesion context, and follow-up define the clinical decision space.
 - Added content tests for required columns, all eight demand profiles, and non-authorizing safety boundaries.
 - Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the Work vs Sport module.
+- Added `src/data/evidenceBoundaries.ts` with route-specific evidence classifications for major claims and non-claims.
+- Added the reusable Evidence Boundary Layer component with compact evidence badges and expandable “De ce contează?” explanations.
+- Mounted the Evidence Boundary Layer on Recovery Map, Journal, Teach-Back, Work vs Sport, and Consultation Brief.
+- Added tests for required examples, all five evidence categories, every requested surface, and component rendering.
+- Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the Evidence Boundary changes.
+- Added the standalone Consultation Brief generator at `/brief`.
+- Built a print-friendly brief surface from selected fictional patient, latest journal entries, safety/red-flag status, teach-back analysis, selected work/sport demand, and clinician-provided restriction text.
+- Added the required nine sections and the exact safety statement that the document is educational, not a treatment plan, and does not authorize return to work, sport, or demanding effort.
+- Added a robust browser `Print / Save as PDF` action and print CSS for clean PDF output.
+- Added unit tests for the brief generator, required disclaimer, red-flag handling, teach-back risks, clinician questions, and non-decision boundaries.
+- Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the Consultation Brief generator changes.
+- Added the full-screen Jury Mode route at `/jury` for a guided seven-minute, non-technical live demo.
+- Built the ten-step presenter flow: problem framing, framework domains, gym-focused fictional patient, journal data, one-click red-flag trigger, teach-back risk sentence, work-vs-sport boundary, printable brief, research validation ladder, and closing message.
+- Added projector-friendly controls with Next, Back, Reset, progress indicator, keyboard shortcuts for ArrowRight, ArrowLeft, R, and hidden presenter notes toggled with N.
+- Added Jury Mode content tests covering all required steps, the exact opening and closing statements, the red-flag and teach-back moments, and the future validation ladder.
+- Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the Jury Mode changes.
+- Added a reusable Research Maturity Ladder component and data model for Delphi consensus, qualitative patient experience study, feasibility pilot, prospective cohort, pragmatic or randomized study, and digital implementation study.
+- Placed the ladder on the late Jury Mode slides, the new `/about` route, and the Recovery Map sidebar while preserving explicit prototype and non-validation boundaries.
+- Added tests covering the six research steps, what each would test, why it matters, and what the current app does not prove.
+- Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the Research Maturity Ladder changes.

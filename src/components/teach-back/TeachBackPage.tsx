@@ -12,6 +12,7 @@ import {
   Sparkles
 } from "lucide-react";
 
+import { EvidenceBoundaryLayer } from "@/components/safety/EvidenceBoundaryLayer";
 import {
   analyzeTeachBack,
   teachBackDemoExample,
@@ -120,6 +121,10 @@ export function TeachBackPage() {
             </p>
           </aside>
         </div>
+      </section>
+
+      <section className="px-4 pt-10 sm:px-6 lg:px-8">
+        <EvidenceBoundaryLayer surface="teach-back" />
       </section>
 
       <section className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_25rem] lg:px-8">
