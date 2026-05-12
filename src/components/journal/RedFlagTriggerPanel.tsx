@@ -3,6 +3,8 @@
 import React from "react";
 import { AlertTriangle, FileText, MessageSquareText } from "lucide-react";
 
+import { redFlagEscalation } from "@/data/safety";
+
 export const redFlagWhyExplanation =
   "Pentru că aceste semnale pot marca o schimbare importantă față de jurnalul obișnuit. SpineBridge Live nu interpretează cauza și nu modifică activitatea; evidențiază informația pentru dialog cu echipa medicală.";
 
@@ -50,14 +52,25 @@ export function RedFlagTriggerPanel({
               Semnal pentru comunicare medicală
             </p>
             <h2 className="text-safe-wrap mt-2 text-2xl font-black leading-tight sm:text-4xl">
-              Semn de alarmă detectat. Nu ajusta exercițiile singur. Contactează echipa
-              medicală sau solicită evaluare medicală.
+              Semn de alarmă selectat. Nu ajusta exercițiile singur pe baza aplicației.
+              Contactează echipa medicală sau solicită evaluare medicală.
             </h2>
           </div>
         </div>
         <div className="rounded-panel border border-white/25 px-4 py-3 text-sm font-bold leading-6 text-white/90">
-          Date pentru consultație, nu concluzii medicale.
+          {redFlagEscalation}
         </div>
+      </div>
+
+      <div className="mt-6 grid gap-2 sm:grid-cols-3">
+        {["Nu concluzie clinică", "Nu conduită", "Nu progresie"].map((boundary) => (
+          <div
+            className="rounded-panel border border-white/20 bg-white/12 px-3 py-2 text-center text-xs font-black uppercase text-white"
+            key={boundary}
+          >
+            {boundary}
+          </div>
+        ))}
       </div>
 
       <div className="mt-7 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">

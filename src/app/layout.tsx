@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 
-import { SafetyBanner } from "@/components/safety/SafetyBanner";
+import { AppShell } from "@/components/layout/AppShell";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -23,8 +23,7 @@ export default function RootLayout({
   return (
     <html lang="ro">
       <body>
-        <SafetyBanner />
-        {children}
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

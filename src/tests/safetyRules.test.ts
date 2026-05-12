@@ -89,6 +89,48 @@ describe("deterministic safety engine", () => {
     expect(result.title).toContain("Semnal de alarmă");
   });
 
+  it("returns RED for Romanian red flag labels selected from the UI", () => {
+    const result = evaluateWith({
+      selectedRedFlagSymptoms: [
+        "amorțeală, parestezii sau modificări senzitive noi",
+        "modificări urinare sau intestinale"
+      ]
+    });
+
+    expect(result.status).toBe("RED");
+    expect(result.triggeredRules.map((rule) => rule.id)).toEqual(
+      expect.arrayContaining(["numbness-paresthesia", "urinary-bowel-changes"])
+    );
+    expect(result.recommendedNextStepText).toContain("Nu aștepta confirmare digitală");
+  });
+
+  it("keeps RED priority above worsening trends and sport warnings", () => {
+    const result = evaluateWith({
+      currentJournalEntry: {
+        ...baselineEntry,
+        id: "current",
+        fatigueLevel: 8,
+        notes: "Dacă nu doare pot forța."
+      },
+      previousJournalEntries: [
+        {
+          ...baselineEntry,
+          id: "previous",
+          fatigueLevel: 2
+        }
+      ],
+      selectedRedFlagSymptoms: ["deteriorarea mersului"],
+      targetActivityType: "sport",
+      patientRestrictionsText: "Restricții generale pentru activități cotidiene."
+    });
+
+    expect(result.status).toBe("RED");
+    expect(result.triggeredRules.every((rule) => rule.status === "RED")).toBe(true);
+    expect(result.triggeredRules.map((rule) => rule.id)).toContain("gait-deterioration");
+    expect(result.triggeredRules.map((rule) => rule.id)).not.toContain("worsening-fatigue");
+    expect(result.triggeredRules.map((rule) => rule.id)).not.toContain("sport-needs-clinical-dialogue");
+  });
+
   it("returns YELLOW for sport when restrictions do not mention clinician discussion for sport", () => {
     const result = evaluateWith({
       targetActivityType: "sport",
@@ -168,6 +210,21 @@ describe("deterministic safety engine", () => {
         "worsening-fatigue",
         "tolerance-drop"
       ])
+    );
+  });
+
+  it("flags no-pain effort notes as educational misconceptions", () => {
+    const result = evaluateWith({
+      currentJournalEntry: {
+        ...baselineEntry,
+        notes: "Dacă nu doare pot forța?"
+      }
+    });
+
+    expect(result.status).toBe("YELLOW");
+    expect(result.triggeredRules.map((rule) => rule.id)).toContain("misconception-note");
+    expect(result.triggeredRules.find((rule) => rule.id === "misconception-note")?.evidence).toContain(
+      "absența durerii"
     );
   });
 

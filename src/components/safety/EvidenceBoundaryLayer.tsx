@@ -39,7 +39,7 @@ export function EvidenceBoundaryLayer({
   return (
     <section
       className={cn(
-        "rounded-panel border border-ink/10 bg-white p-5 shadow-panel",
+        "rounded-panel border border-ink/10 bg-white p-5 shadow-panel sm:p-6",
         compact ? "print:bg-white" : "mx-auto max-w-7xl",
         className
       )}
@@ -47,7 +47,7 @@ export function EvidenceBoundaryLayer({
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex min-w-0 gap-3">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-panel bg-ink text-white">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-panel bg-ink text-white shadow-panel">
             <Microscope aria-hidden="true" size={21} />
           </span>
           <div className="min-w-0">
@@ -72,7 +72,7 @@ export function EvidenceBoundaryLayer({
       <div className={cn("mt-5 grid gap-3", compact ? "lg:grid-cols-2" : "lg:grid-cols-3")}>
         {items.map((item) => (
           <details
-            className="group rounded-panel border border-ink/10 bg-paper p-4 open:bg-white"
+            className="group premium-transition rounded-panel border border-ink/10 bg-paper p-4 open:border-clinical/25 open:bg-white open:shadow-panel"
             key={item.id}
           >
             <summary className="flex cursor-pointer list-none flex-col gap-3">

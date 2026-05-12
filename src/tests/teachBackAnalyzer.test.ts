@@ -49,6 +49,8 @@ describe("teachBackAnalyzer", () => {
     });
 
     expect(result.saferRephrasing).toBe(teachBackDemoExample.output);
+    expect(result.saferRephrasing).toContain("limite trebuie clarificate");
+    expect(result.saferRephrasing).not.toContain("sarcini permise");
     expect(result.riskMisconceptions).toEqual(
       expect.arrayContaining([
         "Lipsa durerii este confundată cu permisiunea de a forța sau de a face efort complet."

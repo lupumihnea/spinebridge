@@ -13,7 +13,7 @@ export interface TeachBackAnalysis {
 }
 
 const demoRiskRephrasing =
-  "Formulare potențial riscantă: lipsa durerii nu înseamnă automat autorizare pentru efort complet. Întreabă clinicianul despre restricții, criterii și sarcini permise.";
+  "Formulare potențial riscantă: lipsa durerii nu înseamnă automat autorizare pentru efort complet. Întreabă clinicianul ce restricții, criterii și limite trebuie clarificate înainte de sarcini solicitante.";
 
 const defaultQuestions = [
   "Ce restricții mi-au fost comunicate și ce ar trebui clarificat?",

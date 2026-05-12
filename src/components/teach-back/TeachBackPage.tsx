@@ -218,7 +218,12 @@ export function TeachBackPage() {
             </div>
 
             <div className={cn("mt-5 rounded-panel border p-4", tone.surface)}>
-              <p className={cn("text-sm font-black uppercase", tone.color)}>{tone.label}</p>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <p className={cn("text-sm font-black uppercase", tone.color)}>{tone.label}</p>
+                <span className="rounded-panel border border-ink/10 bg-white px-2.5 py-1 text-[11px] font-black uppercase text-muted">
+                  suport de înțelegere
+                </span>
+              </div>
               <p className="mt-3 text-base font-bold leading-7 text-ink">
                 {analysis.saferRephrasing}
               </p>

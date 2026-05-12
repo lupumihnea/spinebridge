@@ -74,3 +74,23 @@
 - Placed the ladder on the late Jury Mode slides, the new `/about` route, and the Recovery Map sidebar while preserving explicit prototype and non-validation boundaries.
 - Added tests covering the six research steps, what each would test, why it matters, and what the current app does not prove.
 - Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the Research Maturity Ladder changes.
+- Expanded `/about` into an About / Academic Rationale page in Romanian, grounded in the article scope: target population, exclusion boundaries, five educational domains, educational non-prescriptive rationale, work-versus-sport distinction, teach-back, self-monitoring, digital progression limits, and future validation roadmap.
+- Added focused page-content tests for the three requested cards, population/exclusion wording, five domains, rationale sections, and validation roadmap.
+- Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the About / Academic Rationale page changes.
+- Completed a full UI polish pass for a premium, stage-ready digital health education product: consistent app shell, top navigation, mobile menu, footer disclaimer, stronger safety banners, refined spacing, typography, card hierarchy, buttons, hover states, transitions, and subtle clinical background treatment.
+- Added professional Tailwind color tokens, shared surface/shadow utilities, responsive overflow safeguards, and stronger print styling for consultation brief output.
+- Polished key surfaces across the landing demo, patient selector, framework map, journal, evidence boundary layer, brief generator, consultation brief, About page, and Jury Mode while preserving visible Romanian safety boundaries.
+- Replaced the framework visualization with a deterministic CSS bar chart so the chart remains readable immediately on projector screenshots and does not depend on client-side chart animation.
+- Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the UI polish pass.
+- Manually inspected production screenshots for `/`, mobile home, `/about`, `/journal`, `/brief`, and `/jury`, and generated `.next/ui-inspection/brief-print.pdf` to verify print output.
+- Added `scripts/demoQualityCheck.mjs`, a deterministic local demo evaluator with a 100-point score across safety language, demo completeness, visual/presentation readiness, academic fidelity, and reliability.
+- Wired `npm run demo:check` and included checks for banned authorization wording, global safety boundaries, seeded patients, red-flag tests, Jury Mode, Consultation Brief, Romanian text on core routes, and unfinished user-facing placeholders.
+- Ran `npm run demo:check` successfully with a score of `100/100`, then ran `npm run build` and `npm test` successfully.
+- Completed a strict code and product review pass against clinical authorization risk, red-flag safety handling, seven-minute jury flow, academic domain fidelity, work/sport separation, teach-back boundaries, safety-engine coverage, and offline demo resilience.
+- Tightened red-flag wording from detection language to selected-user-signal language, strengthened escalation copy, and added safety-engine tests for Romanian red flags, RED priority, and no-pain misconceptions.
+- Reworded evidence-boundary non-claims so unsafe ideas are not displayed as positive statements, and expanded the local demo checker to catch detection/authorization wording regressions.
+- Replaced the journal trend chart with deterministic CSS charting and added localStorage validation shared by the journal and consultation brief pages so corrupt demo state falls back to seeded data.
+- Reran `npm run demo:check`, `npm test`, and `npm run build` successfully after the review fixes.
+- Completed the final live-demo polish pass: the landing page now routes directly into Jury Mode, the red-flag panel has clearer boundary chips, Jury Mode uses Romanian selection wording, Teach-Back labels its output as understanding support, Work vs Sport has a quick visual separation strip, and the Consultation Brief header clarifies its conversation-only purpose.
+- Updated `docs/live_demo_checklist.md` with the final click path from landing page to Jury Mode, including the red-flag selection moment and the exact elements to point at.
+- Reran `npm run demo:check` with `100/100`, `npm test` with all tests passing, and `npm run build` successfully after the final polish pass.

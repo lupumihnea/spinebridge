@@ -237,6 +237,28 @@ export function WorkVsSportPage() {
         <EvidenceBoundaryLayer surface="work-vs-sport" />
       </section>
 
+      <section className="mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
+        <div className="grid gap-3 rounded-panel border border-ink/10 bg-white p-4 shadow-panel md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-center">
+          {[
+            ["Activități zilnice", "mers, autonomie, rutină"],
+            ["Muncă", "ședere, condus, sarcini"],
+            ["Sport / sală", "încărcare, impact, performanță"]
+          ].map(([label, detail], index) => (
+            <React.Fragment key={label}>
+              <div className="rounded-panel bg-paper p-4 text-center">
+                <p className="text-sm font-black uppercase text-clinical">{label}</p>
+                <p className="mt-2 text-base font-bold text-ink">{detail}</p>
+              </div>
+              {index < 2 ? (
+                <div className="text-center text-2xl font-black text-signal" aria-hidden="true">
+                  ≠
+                </div>
+              ) : null}
+            </React.Fragment>
+          ))}
+        </div>
+      </section>
+
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-5 lg:grid-cols-3">
           {comparisonColumns.map((column, index) => (

@@ -236,7 +236,7 @@ export function evaluateSafetyRules(input: SafetyEngineInput): SafetyEngineResul
       "Semnal de alarmă de comunicat prompt",
       "A fost selectat cel puțin un semnal de alarmă. Simulatorul nu interpretează cauza și nu stabilește conduita.",
       triggeredRules,
-      "Comunică prompt semnalul către echipa medicală sau urmează instrucțiunile clinice deja primite.",
+      "Comunică prompt semnalul către echipa medicală sau urmează instrucțiunile clinice deja primite. Nu aștepta confirmare digitală pentru progresie sau efort.",
       [
         "Ce semnal nou trebuie comunicat imediat?",
         "Ce instrucțiuni clinice deja primite se aplică în această situație?",

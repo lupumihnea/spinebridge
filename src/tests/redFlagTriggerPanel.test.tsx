@@ -25,8 +25,9 @@ describe("RedFlagTriggerPanel", () => {
     const panel = screen.getByTestId("red-flag-trigger-panel");
 
     expect(panel).toHaveTextContent(
-      "Semn de alarmă detectat. Nu ajusta exercițiile singur. Contactează echipa medicală sau solicită evaluare medicală."
+      "Semn de alarmă selectat. Nu ajusta exercițiile singur pe baza aplicației. Contactează echipa medicală sau solicită evaluare medicală."
     );
+    expect(panel).toHaveTextContent("nu confirmă severitatea");
     expect(panel).toHaveTextContent("slăbiciune nou apărută");
     expect(panel).toHaveTextContent("deteriorarea mersului");
     expect(panel).toHaveTextContent("De ce?");

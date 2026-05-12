@@ -20,11 +20,11 @@ export function FrameworkMap({ selectedDomainId, onSelectDomain }: FrameworkMapP
   return (
     <section id="cadru" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase text-clinical">Cadru educațional</p>
-        <h2 className="mt-3 text-3xl font-bold text-ink sm:text-4xl">
+        <p className="text-sm font-black uppercase text-clinical">Cadru educațional</p>
+        <h2 className="mt-3 text-3xl font-black text-ink sm:text-4xl">
           Cinci domenii pentru o conversație mai clară
         </h2>
-        <p className="mt-4 text-base leading-7 text-muted">
+        <p className="mt-4 text-base font-semibold leading-7 text-muted">
           Domeniile structurează educația și auto-monitorizarea. Ele nu funcționează ca
           etape clinice obligatorii sau calendar universal.
         </p>
@@ -38,8 +38,8 @@ export function FrameworkMap({ selectedDomainId, onSelectDomain }: FrameworkMapP
             <button
               aria-pressed={selected}
               className={cn(
-                "focus-ring flex min-h-72 flex-col justify-between rounded-panel border bg-white p-5 text-left shadow-panel transition duration-200 hover:-translate-y-1",
-                selected ? "border-clinical ring-2 ring-clinical/20" : "border-ink/10"
+                "focus-ring premium-transition flex min-h-72 flex-col justify-between rounded-panel border bg-white p-5 text-left shadow-panel hover:-translate-y-1 hover:shadow-lift",
+                selected ? "border-clinical ring-2 ring-clinical/20" : "border-ink/10 hover:border-clinical/30"
               )}
               key={domain.id}
               onClick={() => onSelectDomain(domain.id)}
@@ -54,13 +54,13 @@ export function FrameworkMap({ selectedDomainId, onSelectDomain }: FrameworkMapP
                 >
                   <BookOpen aria-hidden="true" size={20} />
                 </span>
-                <p className="mt-5 text-sm font-bold text-clinical">Domeniul {domain.order}</p>
-                <h3 className="mt-2 text-lg font-bold leading-6 text-ink">{domain.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-muted">
+                <p className="mt-5 text-sm font-black text-clinical">Domeniul {domain.order}</p>
+                <h3 className="mt-2 text-lg font-black leading-6 text-ink">{domain.title}</h3>
+                <p className="mt-3 text-sm font-semibold leading-6 text-muted">
                   {domain.patientFriendlyMessage}
                 </p>
               </div>
-              <div className="mt-5 flex items-center gap-2 border-t border-ink/10 pt-4 text-xs font-semibold text-ink">
+              <div className="mt-5 flex items-center gap-2 border-t border-ink/10 pt-4 text-xs font-black uppercase text-ink">
                 <MessageSquareText aria-hidden="true" size={15} />
                 <span>{domain.academicLabel}</span>
               </div>

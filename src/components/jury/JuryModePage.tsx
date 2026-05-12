@@ -46,6 +46,8 @@ const stepIcons = [
   FlaskConical,
   ShieldCheck
 ];
+const demoTimeBudgetMinutes = 7;
+const secondsPerStep = Math.round((demoTimeBudgetMinutes * 60) / stepIcons.length);
 
 function getGymPatient() {
   return demoPatients.find((patient) => patient.id === "gym-no-pain") ?? demoPatients[0];
@@ -170,7 +172,7 @@ function StepVisual({
         {redFlagActive ? (
           <div className="mt-4">
             <h3 className="text-4xl font-black leading-tight text-white">
-              Semn de alarmă detectat
+              Semn de alarmă selectat
             </h3>
             <p className="mt-3 text-2xl font-bold text-white">amorțeală nouă</p>
             <p className="mt-4 max-w-3xl text-lg font-semibold leading-8 text-white/88">
@@ -184,7 +186,7 @@ function StepVisual({
               Apasă o singură dată pentru “amorțeală nouă”.
             </p>
             <span className="rounded-panel border border-signal/40 bg-signal/15 px-4 py-3 text-base font-black text-signal">
-              gata pentru trigger
+              gata pentru selecție
             </span>
           </div>
         )}
@@ -300,6 +302,7 @@ export function JuryModePage() {
   const currentStep = jurySteps[stepIndex];
   const Icon = stepIcons[stepIndex] ?? MessageSquareText;
   const progressPercent = ((stepIndex + 1) / jurySteps.length) * 100;
+  const pacingSeconds = Math.min((stepIndex + 1) * secondsPerStep, demoTimeBudgetMinutes * 60);
   const gymPatient = getGymPatient();
   const gymDemand = demandProfiles.find((demand) => demand.id === "gym-training") ?? demandProfiles[0];
   const gymEntries = seededJournalEntries.filter((entry) => entry.patientScenarioId === gymPatient.id);
@@ -358,18 +361,23 @@ export function JuryModePage() {
   }, []);
 
   return (
-    <main className="min-h-screen overflow-y-auto bg-ink text-white lg:h-screen lg:overflow-hidden">
-      <div className="flex min-h-screen flex-col p-4 sm:p-6 lg:h-full lg:min-h-0 lg:p-8">
+    <main className="min-h-[calc(100vh-9rem)] overflow-y-auto bg-ink text-white lg:overflow-hidden">
+      <div className="flex min-h-[calc(100vh-9rem)] flex-col p-4 sm:p-6 lg:p-8">
         <header className="flex shrink-0 items-center justify-between gap-4">
           <div className="min-w-0">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-clinical">
               SpineBridge Live / Jury Mode
             </p>
-            <div className="mt-3 h-2 w-72 max-w-[45vw] overflow-hidden rounded-full bg-white/10">
-              <div
-                className="h-full rounded-full bg-clinical transition-all duration-300"
-                style={{ width: `${progressPercent}%` }}
-              />
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <div className="h-2 w-72 max-w-[45vw] overflow-hidden rounded-full bg-white/10">
+                <div
+                  className="h-full rounded-full bg-clinical transition-all duration-300"
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+              <span className="rounded-panel border border-white/15 bg-white/8 px-3 py-1 text-xs font-black uppercase text-white/70">
+                {demoTimeBudgetMinutes} min demo / ~{Math.ceil(pacingSeconds / 60)} min
+              </span>
             </div>
           </div>
           <div className="hidden items-center gap-2 text-xs font-black uppercase text-white/50 md:flex">
@@ -390,12 +398,12 @@ export function JuryModePage() {
                   </span>
                   <div>
                     <p className="text-sm font-black uppercase text-clinical">{currentStep.eyebrow}</p>
-                    <h1 className="mt-2 text-4xl font-black leading-tight text-white xl:text-6xl">
+                    <h1 className="mt-2 text-4xl font-black leading-tight text-white xl:text-6xl 2xl:text-7xl">
                       {currentStep.title}
                     </h1>
                   </div>
                 </div>
-                <p className="max-w-4xl text-2xl font-black leading-tight text-white/88 xl:text-4xl">
+                <p className="max-w-4xl text-2xl font-black leading-tight text-white/88 xl:text-4xl 2xl:text-5xl">
                   {currentStep.statement}
                 </p>
                 {currentStep.id === "red-flag" && !redFlagActive ? (
@@ -405,7 +413,7 @@ export function JuryModePage() {
                     type="button"
                   >
                     <AlertTriangle aria-hidden="true" size={22} />
-                    Trigger: amorțeală nouă
+                    Selectează amorțeală nouă
                   </button>
                 ) : null}
               </SlideShell>

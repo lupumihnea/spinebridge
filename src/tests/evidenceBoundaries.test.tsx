@@ -41,11 +41,11 @@ describe("evidence boundary layer content", () => {
           category: "indirect_educational_evidence"
         }),
         expect.objectContaining({
-          claim: "Aplicația poate decide progresia.",
+          claim: "Limită explicită: aplicația nu decide progresia.",
           category: "not_claimed_by_app"
         }),
         expect.objectContaining({
-          claim: "Revenirea la sport are criterii universale validate pentru acest demo.",
+          claim: "Limită explicită: aplicația nu folosește criterii universale validate pentru revenirea la sport.",
           category: "not_claimed_by_app"
         })
       ])
@@ -72,6 +72,6 @@ describe("evidence boundary layer content", () => {
     );
     expect(screen.getByText("Dovezi educaționale indirecte")).toBeInTheDocument();
     expect(screen.getAllByText("De ce contează?").length).toBeGreaterThan(0);
-    expect(screen.getByText("Aplicația poate decide progresia.")).toBeInTheDocument();
+    expect(screen.getByText("Limită explicită: aplicația nu decide progresia.")).toBeInTheDocument();
   });
 });

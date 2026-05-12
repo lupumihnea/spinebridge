@@ -122,7 +122,7 @@ export const evidenceBoundaryItems: EvidenceBoundaryItem[] = [
   {
     id: "sport-universal-criteria",
     surfaces: ["work-vs-sport"],
-    claim: "Revenirea la sport are criterii universale validate pentru acest demo.",
+    claim: "Limită explicită: aplicația nu folosește criterii universale validate pentru revenirea la sport.",
     category: "not_claimed_by_app",
     evidenceLabel: "nerevendicat / dovezi limitate",
     explanation:
@@ -133,7 +133,7 @@ export const evidenceBoundaryItems: EvidenceBoundaryItem[] = [
   {
     id: "app-decides-progression",
     surfaces: ["recovery-map", "journal", "teach-back", "work-vs-sport", "consultation-brief"],
-    claim: "Aplicația poate decide progresia.",
+    claim: "Limită explicită: aplicația nu decide progresia.",
     category: "not_claimed_by_app",
     evidenceLabel: "interzis în aplicație",
     explanation:

@@ -20,6 +20,7 @@ import {
   formatTargetActivityLabel,
   generateConsultationBrief
 } from "@/lib/consultationBriefGenerator";
+import { isDemoJournalEntry } from "@/lib/demoJournalValidation";
 import { teachBackDemoExample, type TeachBackAnalyzerInput } from "@/lib/teachBackAnalyzer";
 import { cn } from "@/lib/utils";
 
@@ -101,7 +102,8 @@ export function BriefGeneratorPage() {
       if (stored) {
         const parsed = JSON.parse(stored) as DemoJournalEntry[];
         if (Array.isArray(parsed)) {
-          setEntries(parsed);
+          const validatedEntries = parsed.filter(isDemoJournalEntry);
+          setEntries(validatedEntries.length > 0 ? validatedEntries : seededJournalEntries);
         }
       }
     } catch {
@@ -211,7 +213,7 @@ export function BriefGeneratorPage() {
           </div>
 
           <button
-            className="focus-ring flex w-full items-center justify-center gap-2 rounded-panel border border-ink bg-ink px-4 py-3 text-sm font-black text-white transition hover:-translate-y-0.5"
+            className="focus-ring premium-transition flex w-full items-center justify-center gap-2 rounded-panel border border-ink bg-ink px-4 py-3 text-sm font-black text-white shadow-panel hover:-translate-y-0.5 hover:bg-clinical-deep hover:shadow-lift"
             onClick={() => window.print()}
             type="button"
           >
@@ -235,10 +237,10 @@ export function BriefGeneratorPage() {
               {demandProfiles.map((demand) => (
                 <button
                   className={cn(
-                    "focus-ring rounded-panel border p-3 text-left text-sm font-bold transition",
+                    "focus-ring premium-transition rounded-panel border p-3 text-left text-sm font-black",
                     demand.id === selectedDemand.id
-                      ? "border-clinical bg-clinical/10 text-clinical"
-                      : "border-ink/10 bg-paper text-ink hover:border-clinical/30"
+                      ? "border-clinical bg-clinical/10 text-clinical shadow-panel"
+                      : "border-ink/10 bg-paper text-ink hover:-translate-y-0.5 hover:border-clinical/30 hover:bg-white hover:shadow-panel"
                   )}
                   key={demand.id}
                   onClick={() => setSelectedDemandId(demand.id)}
@@ -256,7 +258,7 @@ export function BriefGeneratorPage() {
                 Restricții comunicate de clinician
               </span>
               <textarea
-                className="focus-ring mt-2 min-h-24 w-full resize-none rounded-panel border border-ink/10 bg-paper/70 p-4 text-sm font-semibold leading-7 text-ink"
+                className="focus-ring premium-transition mt-2 min-h-24 w-full resize-none rounded-panel border border-ink/10 bg-paper/70 p-4 text-sm font-semibold leading-7 text-ink hover:border-clinical/25"
                 onChange={(event) => setRestrictionsText(event.target.value)}
                 value={restrictionsText}
               />
@@ -281,7 +283,7 @@ export function BriefGeneratorPage() {
               <label className="block">
                 <span className="text-sm font-black text-ink">Ce a înțeles pacientul</span>
                 <textarea
-                  className="focus-ring mt-2 min-h-28 w-full resize-none rounded-panel border border-ink/10 bg-paper/70 p-4 text-sm font-semibold leading-7 text-ink"
+                  className="focus-ring premium-transition mt-2 min-h-28 w-full resize-none rounded-panel border border-ink/10 bg-paper/70 p-4 text-sm font-semibold leading-7 text-ink hover:border-clinical/25"
                   onChange={(event) => updateTeachBack("fractureUnderstanding", event.target.value)}
                   value={teachBackInput.fractureUnderstanding}
                 />
@@ -289,7 +291,7 @@ export function BriefGeneratorPage() {
               <label className="block">
                 <span className="text-sm font-black text-ink">Diferența muncă / sport</span>
                 <textarea
-                  className="focus-ring mt-2 min-h-28 w-full resize-none rounded-panel border border-ink/10 bg-paper/70 p-4 text-sm font-semibold leading-7 text-ink"
+                  className="focus-ring premium-transition mt-2 min-h-28 w-full resize-none rounded-panel border border-ink/10 bg-paper/70 p-4 text-sm font-semibold leading-7 text-ink hover:border-clinical/25"
                   onChange={(event) => updateTeachBack("workSportDifference", event.target.value)}
                   value={teachBackInput.workSportDifference}
                 />
@@ -308,6 +310,9 @@ export function BriefGeneratorPage() {
                 <h1 className="text-safe-wrap mt-2 text-3xl font-black text-ink">
                   Brief pentru consultație
                 </h1>
+                <p className="mt-2 text-sm font-bold leading-6 text-muted">
+                  Pregătit pentru conversație clinică, nu pentru decizie clinică automată.
+                </p>
               </div>
               <div className="rounded-panel border border-signal/25 bg-signal/5 p-4 text-sm font-black leading-6 text-signal sm:max-w-sm">
                 {generatedBrief.safetyStatement}
@@ -346,30 +351,41 @@ export function BriefGeneratorPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {generatedBrief.journalRows.map((entry) => (
-                      <tr className="border-b border-ink/5" key={`${entry.date}-${entry.notes}`}>
-                        <td className="py-3 pr-3 font-bold text-ink">{entry.date}</td>
-                        <td className="py-3 pr-3 text-ink">
-                          {formatTargetActivityLabel(entry.targetActivityType)}
+                    {generatedBrief.journalRows.length > 0 ? (
+                      generatedBrief.journalRows.map((entry) => (
+                        <tr className="border-b border-ink/5" key={`${entry.date}-${entry.notes}`}>
+                          <td className="py-3 pr-3 font-bold text-ink">{entry.date}</td>
+                          <td className="py-3 pr-3 text-ink">
+                            {formatTargetActivityLabel(entry.targetActivityType)}
+                          </td>
+                          <td className="py-3 pr-3 text-ink">
+                            {entry.painBeforeActivity} → {entry.painAfterActivity}
+                          </td>
+                          <td className="py-3 pr-3 text-ink">{entry.walkingMinutes} min</td>
+                          <td className="py-3 pr-3 text-ink">{entry.sittingMinutes} min</td>
+                          <td className="py-3 pr-3 text-ink">{entry.fatigue}/10</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td className="py-4 pr-3 text-sm font-bold text-muted" colSpan={6}>
+                          Nu există intrări de jurnal pentru acest profil fictiv. Brief-ul rămâne
+                          educațional și nu generează concluzii clinice.
                         </td>
-                        <td className="py-3 pr-3 text-ink">
-                          {entry.painBeforeActivity} → {entry.painAfterActivity}
-                        </td>
-                        <td className="py-3 pr-3 text-ink">{entry.walkingMinutes} min</td>
-                        <td className="py-3 pr-3 text-ink">{entry.sittingMinutes} min</td>
-                        <td className="py-3 pr-3 text-ink">{entry.fatigue}/10</td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>
-              <div className="mt-4 grid gap-2">
-                {generatedBrief.journalRows.map((entry) => (
-                  <p className="rounded-panel bg-paper p-3 text-sm leading-6 text-ink" key={entry.notes}>
-                    <span className="font-black">{entry.date}:</span> {entry.notes}
-                  </p>
-                ))}
-              </div>
+              {generatedBrief.journalRows.length > 0 ? (
+                <div className="mt-4 grid gap-2">
+                  {generatedBrief.journalRows.map((entry) => (
+                    <p className="rounded-panel bg-paper p-3 text-sm leading-6 text-ink" key={entry.notes}>
+                      <span className="font-black">{entry.date}:</span> {entry.notes}
+                    </p>
+                  ))}
+                </div>
+              ) : null}
             </SectionBlock>
 
             <SectionBlock number={6} title="Semne de alarmă bifate">

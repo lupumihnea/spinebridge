@@ -26,4 +26,4 @@ export const redFlags: RedFlag[] = [
 ];
 
 export const redFlagEscalation =
-  "Acest semnal trebuie comunicat prompt echipei medicale. Aplicația nu interpretează cauza și nu stabilește conduita.";
+  "Acest semnal trebuie comunicat prompt echipei medicale. Aplicația nu interpretează cauza, nu confirmă severitatea și nu stabilește conduita.";

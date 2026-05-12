@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -13,16 +13,16 @@ export function ActionLink({ href, children, icon, variant = "primary" }: Action
   return (
     <a
       className={cn(
-        "focus-ring inline-flex min-h-12 w-full min-w-0 items-center justify-center gap-2 rounded-panel border px-5 py-3 text-center text-sm font-semibold transition duration-200 sm:w-auto",
+        "focus-ring premium-transition inline-flex min-h-12 w-full min-w-0 items-center justify-center gap-2 rounded-panel border px-5 py-3 text-center text-sm font-black shadow-panel sm:w-auto",
         variant === "primary" &&
-          "border-ink bg-ink text-white shadow-panel hover:-translate-y-0.5 hover:bg-graphite",
+          "border-ink bg-ink text-white hover:-translate-y-0.5 hover:border-clinical-deep hover:bg-clinical-deep hover:shadow-lift",
         variant === "secondary" &&
-          "border-ink/15 bg-white/75 text-ink hover:-translate-y-0.5 hover:border-clinical/40 hover:bg-white"
+          "border-ink/15 bg-white/88 text-ink hover:-translate-y-0.5 hover:border-clinical/40 hover:bg-white hover:shadow-lift"
       )}
       href={href}
     >
       {icon}
-      <span className="min-w-0">{children}</span>
+      <span className="min-w-0 break-words">{children}</span>
     </a>
   );
 }

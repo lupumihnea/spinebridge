@@ -12,16 +12,6 @@ import {
   Save,
   UserRound
 } from "lucide-react";
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
-} from "recharts";
 
 import { demoPatients } from "@/data/demoPatients";
 import { type DemoJournalEntry, seededJournalEntries } from "@/data/seededJournalEntries";
@@ -33,9 +23,17 @@ import {
   type SafetyEngineResult,
   type TargetActivityType
 } from "@/lib/safetyRules";
+import { isDemoJournalEntry } from "@/lib/demoJournalValidation";
 import { cn } from "@/lib/utils";
 
 const storageKey = "spinebridge-live-journal-v1";
+
+type NumericJournalKey =
+  | "painBeforeActivity"
+  | "painAfterActivity"
+  | "walkingMinutes"
+  | "sittingMinutes"
+  | "fatigue";
 
 const activityLabels: Record<TargetActivityType, string> = {
   daily_activity: "activitate zilnică",
@@ -132,77 +130,113 @@ function TrendChart({
   title
 }: {
   data: DemoJournalEntry[];
-  lines: Array<{ dataKey: keyof DemoJournalEntry; label: string; color: string }>;
+  lines: Array<{ dataKey: NumericJournalKey; label: string; color: string }>;
   title: string;
 }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const hasData = data.length > 0;
+  const visibleData = data.slice(-6);
+  const maxValue = Math.max(
+    1,
+    ...visibleData.flatMap((entry) => lines.map((line) => Number(entry[line.dataKey]) || 0))
+  );
+  const barHeightClass = lines.length > 1 ? "h-16" : "h-36";
 
   return (
-    <div className="rounded-panel border border-ink/10 bg-white p-5 shadow-panel">
+    <div className="rounded-panel border border-ink/10 bg-white p-5 shadow-panel sm:p-6">
       <div className="mb-4 flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-panel bg-clinical/10 text-clinical">
+        <span className="flex h-12 w-12 items-center justify-center rounded-panel bg-clinical/10 text-clinical">
           <BarChart3 aria-hidden="true" size={20} />
         </span>
         <div>
           <p className="text-xs font-black uppercase text-clinical">Trend educațional</p>
-          <h3 className="text-lg font-black text-ink">{title}</h3>
+          <h3 className="text-xl font-black text-ink">{title}</h3>
         </div>
       </div>
-      <div className="h-64">
-        {mounted ? (
-          <ResponsiveContainer height="100%" width="100%">
-            <LineChart data={data} margin={{ left: -18, right: 12, top: 10 }}>
-              <CartesianGrid stroke="#d9dedb" strokeDasharray="3 3" />
-              <XAxis dataKey="date" tick={{ fill: "#5a6762", fontSize: 12 }} />
-              <YAxis allowDecimals={false} tick={{ fill: "#5a6762", fontSize: 12 }} />
-              <Tooltip
-                contentStyle={{
-                  border: "1px solid rgba(23,32,29,0.12)",
-                  borderRadius: 8,
-                  boxShadow: "0 12px 34px rgba(23,32,29,0.12)"
-                }}
-              />
-              <Legend />
-              {lines.map((line) => (
-                <Line
-                  dataKey={line.dataKey}
-                  dot={{ r: 4 }}
-                  key={String(line.dataKey)}
-                  name={line.label}
-                  stroke={line.color}
-                  strokeWidth={3}
-                  type="monotone"
-                />
-              ))}
-            </LineChart>
-          </ResponsiveContainer>
+      <div className="h-72">
+        {!hasData ? (
+          <div className="flex h-full flex-col justify-center rounded-panel border border-dashed border-ink/20 bg-surface-muted p-5">
+            <p className="text-sm font-black uppercase text-clinical">Stare goală</p>
+            <p className="mt-2 text-base font-black leading-7 text-ink">
+              Nu există încă intrări pentru acest scenariu fictiv.
+            </p>
+            <p className="mt-2 text-sm font-semibold leading-6 text-muted">
+              Adaugă o intrare de jurnal pentru a vedea trenduri educaționale. Graficul nu
+              generează concluzii clinice.
+            </p>
+          </div>
         ) : (
-          <div className="flex h-full flex-col justify-center gap-4 rounded-panel bg-mist p-5">
-            {lines.map((line, index) => (
-              <div className="space-y-2" key={String(line.dataKey)}>
-                <div className="flex items-center justify-between text-xs font-bold text-muted">
-                  <span>{line.label}</span>
-                  <span>{data[data.length - 1]?.[line.dataKey] ?? 0}</span>
-                </div>
-                <div className="h-3 rounded-panel bg-white">
-                  <div
-                    className="h-3 rounded-panel"
-                    style={{
-                      backgroundColor: line.color,
-                      width: `${Math.min(100, 42 + index * 18)}%`
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
+          <div className="flex h-full flex-col justify-between gap-4 rounded-panel border border-ink/10 bg-surface-muted p-4">
+            <div className="grid flex-1 gap-4">
+              {lines.map((line) => {
+                const latestValue = visibleData[visibleData.length - 1]?.[line.dataKey] ?? 0;
+
+                return (
+                  <div className="min-w-0" key={line.dataKey}>
+                    <div className="mb-2 flex items-center justify-between gap-3">
+                      <div className="flex min-w-0 items-center gap-2">
+                        <span
+                          aria-hidden="true"
+                          className="h-3 w-3 shrink-0 rounded-full"
+                          style={{ backgroundColor: line.color }}
+                        />
+                        <p className="truncate text-xs font-black uppercase text-ink">
+                          {line.label}
+                        </p>
+                      </div>
+                      <p className="text-sm font-black text-muted">{latestValue}</p>
+                    </div>
+                    <div
+                      aria-label={`Trend ${line.label}`}
+                      className="grid grid-cols-6 items-end gap-2"
+                      role="list"
+                    >
+                      {visibleData.map((entry) => {
+                        const value = Number(entry[line.dataKey]) || 0;
+                        const height = Math.max(8, Math.round((value / maxValue) * 100));
+
+                        return (
+                          <div
+                            className={cn(
+                              "flex flex-col justify-end rounded-panel bg-white px-1 py-1",
+                              barHeightClass
+                            )}
+                            key={`${entry.id}-${line.dataKey}`}
+                            role="listitem"
+                          >
+                            <div
+                              className="rounded-panel transition-all duration-300"
+                              style={{
+                                backgroundColor: line.color,
+                                height: `${height}%`
+                              }}
+                              title={`${line.label}: ${value} (${entry.date})`}
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="grid grid-cols-6 gap-2 border-t border-ink/10 pt-2">
+              {visibleData.map((entry) => (
+                <span
+                  className="truncate text-center text-[10px] font-black uppercase text-muted"
+                  key={`${entry.id}-date`}
+                >
+                  {entry.date.slice(5)}
+                </span>
+              ))}
+            </div>
+            <div className="rounded-panel bg-white px-3 py-2 text-xs font-bold leading-5 text-muted">
+              Scalare vizuală locală pe ultimele {visibleData.length} intrări. Valorile nu sunt
+              interpretări clinice.
+            </div>
           </div>
         )}
       </div>
-      <p className="mt-4 text-sm font-semibold leading-6 text-muted">
+      <p className="mt-4 text-sm font-black leading-6 text-muted">
         Date pentru discuția clinică. Nu reprezintă autorizare medicală.
       </p>
     </div>
@@ -222,9 +256,12 @@ export function PatientJournalPage() {
       if (stored) {
         const parsed = JSON.parse(stored) as DemoJournalEntry[];
         if (Array.isArray(parsed)) {
-          setEntries(parsed);
+          const validatedEntries = parsed.filter(isDemoJournalEntry);
+          setEntries(validatedEntries.length > 0 ? validatedEntries : seededJournalEntries);
         }
       }
+    } catch {
+      setEntries(seededJournalEntries);
     } finally {
       setLoaded(true);
     }
@@ -648,7 +685,27 @@ export function PatientJournalPage() {
                 </div>
               </div>
             </section>
-          ) : null}
+          ) : (
+            <section className="rounded-panel border border-dashed border-ink/20 bg-white p-6 shadow-panel">
+              <div className="flex items-start gap-3">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-panel bg-clinical/10 text-clinical">
+                  <MessageSquareText aria-hidden="true" size={22} />
+                </span>
+                <div>
+                  <p className="text-sm font-black uppercase text-clinical">
+                    Stare goală pentru status educațional
+                  </p>
+                  <h2 className="mt-1 text-2xl font-black text-ink">
+                    Adaugă prima intrare pentru acest scenariu fictiv.
+                  </h2>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-muted">
+                    După ce există date, aplicația poate organiza întrebări pentru consultație, fără
+                    să decidă progresia.
+                  </p>
+                </div>
+              </div>
+            </section>
+          )}
         </div>
       </section>
     </main>
