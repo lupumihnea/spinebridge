@@ -11,7 +11,6 @@ import {
   Info,
   Menu,
   MessageSquareText,
-  MonitorPlay,
   Scale,
   X
 } from "lucide-react";
@@ -23,11 +22,27 @@ const navigationItems = [
   { href: "/recovery-map", label: "Recovery Map", icon: BookOpenCheck },
   { href: "/journal", label: "Jurnal", icon: ClipboardList },
   { href: "/teach-back", label: "Teach-back", icon: MessageSquareText },
-  { href: "/work-vs-sport", label: "Muncă vs sport", icon: Scale },
+  { href: "/work-vs-sport", label: "Activități", icon: Scale },
   { href: "/brief", label: "Brief", icon: FileText },
-  { href: "/about", label: "Despre", icon: Info },
-  { href: "/jury", label: "Jury Mode", icon: MonitorPlay }
+  { href: "/about", label: "Despre", icon: Info }
 ];
+
+function SpineBridgeLogo() {
+  return (
+    <span
+      aria-hidden="true"
+      className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-panel border border-clinical/25 bg-white shadow-panel"
+    >
+      <span className="absolute inset-x-2 top-1/2 h-4 -translate-y-1/2 rounded-b-full border-b-4 border-clinical" />
+      <span className="absolute left-2 top-3 h-1.5 w-1.5 rounded-full bg-clinical" />
+      <span className="absolute left-4 top-5 h-1.5 w-1.5 rounded-full bg-clinical-deep" />
+      <span className="absolute left-1/2 top-6 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-clay" />
+      <span className="absolute right-4 top-5 h-1.5 w-1.5 rounded-full bg-clinical-deep" />
+      <span className="absolute right-2 top-3 h-1.5 w-1.5 rounded-full bg-clinical" />
+      <span className="absolute bottom-2 left-1/2 h-5 w-px -translate-x-1/2 bg-ink/25" />
+    </span>
+  );
+}
 
 function isActivePath(pathname: string, href: string) {
   if (href === "/") {
@@ -46,22 +61,17 @@ export function TopNavigation() {
   }, [pathname]);
 
   return (
-    <header className="no-print sticky top-0 z-40 max-w-full border-b border-ink/10 bg-surface/92 shadow-inset backdrop-blur-xl">
+    <header className="no-print sticky top-0 z-40 max-w-full border-b border-clinical/30 bg-ink text-white shadow-panel backdrop-blur-xl">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex min-h-16 min-w-0 items-center justify-between gap-3">
           <Link
-            className="focus-ring premium-transition group flex min-w-0 flex-1 items-center gap-3 rounded-panel px-1 py-2 text-ink"
+            className="focus-ring premium-transition group flex min-w-0 flex-1 items-center gap-3 rounded-panel px-1 py-2 text-white"
             href="/"
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-panel bg-ink text-white shadow-panel group-hover:bg-clinical-deep">
-              <BookOpenCheck aria-hidden="true" size={21} />
-            </span>
+            <SpineBridgeLogo />
             <span className="min-w-0 overflow-hidden">
               <span className="block truncate text-base font-black leading-5">
-                SpineBridge Live
-              </span>
-              <span className="block truncate text-xs font-bold uppercase text-muted">
-                educație și dialog clinic
+                SpineBridge
               </span>
             </span>
           </Link>
@@ -76,8 +86,8 @@ export function TopNavigation() {
                   className={cn(
                     "focus-ring premium-transition inline-flex min-h-10 items-center gap-2 rounded-panel border px-3 py-2 text-sm font-black",
                     active
-                      ? "border-clinical/25 bg-clinical/10 text-clinical"
-                      : "border-transparent text-muted hover:border-ink/10 hover:bg-white hover:text-ink"
+                      ? "border-clinical/60 bg-clinical text-white"
+                      : "border-transparent text-white/72 hover:border-white/20 hover:bg-white/10 hover:text-white"
                   )}
                   href={item.href}
                   key={item.href}
@@ -92,7 +102,7 @@ export function TopNavigation() {
           <button
             aria-expanded={open}
             aria-label={open ? "Închide meniul" : "Deschide meniul"}
-            className="focus-ring premium-transition inline-flex min-h-11 shrink-0 items-center justify-center rounded-panel border border-ink/10 bg-white px-3 text-ink shadow-panel hover:border-clinical/30 xl:hidden"
+            className="focus-ring premium-transition inline-flex min-h-11 shrink-0 items-center justify-center rounded-panel border border-white/15 bg-white/10 px-3 text-white shadow-panel hover:border-clinical/40 xl:hidden"
             onClick={() => setOpen((current) => !current)}
             type="button"
           >
@@ -101,7 +111,7 @@ export function TopNavigation() {
         </div>
 
         {open ? (
-          <nav aria-label="Navigație mobilă" className="grid gap-2 border-t border-ink/10 py-3 xl:hidden">
+          <nav aria-label="Navigație mobilă" className="grid gap-2 border-t border-white/10 py-3 xl:hidden">
             {navigationItems.map((item) => {
               const Icon = item.icon;
               const active = isActivePath(pathname, item.href);
@@ -111,8 +121,8 @@ export function TopNavigation() {
                   className={cn(
                     "focus-ring premium-transition flex min-h-12 items-center gap-3 rounded-panel border px-3 py-2 text-sm font-black",
                     active
-                      ? "border-clinical/30 bg-clinical/10 text-clinical"
-                      : "border-ink/10 bg-white text-ink hover:border-clinical/30"
+                      ? "border-clinical/60 bg-clinical text-white"
+                      : "border-white/10 bg-white/10 text-white hover:border-clinical/40 hover:bg-white/20"
                   )}
                   href={item.href}
                   key={item.href}
@@ -120,7 +130,7 @@ export function TopNavigation() {
                   <span
                     className={cn(
                       "flex h-9 w-9 shrink-0 items-center justify-center rounded-panel",
-                      active ? "bg-clinical text-white" : "bg-paper text-muted"
+                      active ? "bg-white text-clinical" : "bg-white/10 text-white/75"
                     )}
                   >
                     <Icon aria-hidden="true" size={18} />

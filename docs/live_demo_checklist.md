@@ -268,14 +268,14 @@ Final live click path:
    - `Nu progresie`
 6. Click `Next` through:
    - `6 / Teach-back`
-   - `7 / Muncă vs sport`
+   - `7 / Activități`
    - `8 / Brief`
    - `9 / Maturitate științifică`
    - `10 / Closing`
 7. If the jury asks for the full product screens, open:
    - `/journal` for the full patient journal.
    - `/teach-back` for the teach-back analyzer.
-   - `/work-vs-sport` for activity separation.
+   - `/work-vs-sport` for the activity selector.
    - `/brief` for printable consultation brief.
    - `/about` for academic rationale.
 

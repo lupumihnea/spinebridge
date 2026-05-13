@@ -4,7 +4,6 @@ import { useMemo, useRef } from "react";
 import { FileText, Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 
-import { EvidenceBoundaryLayer } from "@/components/safety/EvidenceBoundaryLayer";
 import { redFlags } from "@/data/safety";
 import { createConsultationBrief } from "@/lib/brief";
 import type { DemoState, EducationalDomain, PatientScenario } from "@/types/demo";
@@ -31,7 +30,7 @@ export function ConsultationBrief({ patient, domain, state }: ConsultationBriefP
       <div className="mb-5 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
         <div>
           <p className="text-sm font-black uppercase text-clinical">Rezumat printabil</p>
-          <h2 className="mt-2 text-3xl font-black text-ink">Brief pentru consult</h2>
+          <h2 className="mt-2 text-3xl font-black text-ink">Un rezumat simplu pentru consultație</h2>
         </div>
         <button
           className="focus-ring premium-transition no-print inline-flex min-h-11 items-center justify-center gap-2 rounded-panel border border-ink bg-ink px-4 py-2 text-sm font-black text-white shadow-panel hover:-translate-y-0.5 hover:bg-clinical-deep hover:shadow-lift"
@@ -43,12 +42,6 @@ export function ConsultationBrief({ patient, domain, state }: ConsultationBriefP
         </button>
       </div>
 
-      <EvidenceBoundaryLayer
-        className="mb-5"
-        compact
-        surface="consultation-brief"
-      />
-
       <article
         className="print-surface rounded-panel border border-ink/10 bg-white p-6 shadow-panel sm:p-8"
         ref={contentRef}
@@ -59,13 +52,18 @@ export function ConsultationBrief({ patient, domain, state }: ConsultationBriefP
           </span>
           <div>
             <h3 className="text-2xl font-black text-ink">{brief.title}</h3>
-            <p className="mt-2 text-sm font-black leading-6 text-signal">{brief.boundary}</p>
+            <p className="mt-2 text-sm font-black leading-6 text-clinical">
+              Material educațional generat din date fictive.
+            </p>
+            <p className="mt-1 text-sm font-semibold leading-6 text-muted">
+              Se actualizează după selecțiile făcute mai sus.
+            </p>
           </div>
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
           <div>
-            <p className="text-sm font-black uppercase text-muted">Context fictiv</p>
+            <p className="text-sm font-black uppercase text-muted">Contextul exemplului</p>
             <p className="mt-2 text-sm font-semibold leading-6 text-ink">{brief.patientLine}</p>
             <p className="mt-3 text-sm font-semibold leading-6 text-ink">{brief.focusLine}</p>
             {state.briefNote ? (

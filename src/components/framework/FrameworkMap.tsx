@@ -1,4 +1,11 @@
-import { BookOpen, MessageSquareText } from "lucide-react";
+import {
+  Activity,
+  BriefcaseBusiness,
+  ChevronRight,
+  Footprints,
+  Home,
+  Stethoscope
+} from "lucide-react";
 
 import { frameworkDomains } from "@/data/framework";
 import { cn } from "@/lib/utils";
@@ -10,6 +17,16 @@ const accentClasses = {
   graphite: "border-graphite/25 bg-graphite/10 text-graphite",
   signal: "border-signal/30 bg-signal/10 text-signal"
 };
+
+const accentTextClasses = {
+  clinical: "text-clinical",
+  clay: "text-clay",
+  saffron: "text-saffron",
+  graphite: "text-graphite",
+  signal: "text-signal"
+};
+
+const domainIcons = [Stethoscope, Home, Footprints, BriefcaseBusiness, Activity];
 
 interface FrameworkMapProps {
   selectedDomainId: string;
@@ -25,14 +42,15 @@ export function FrameworkMap({ selectedDomainId, onSelectDomain }: FrameworkMapP
           Cinci domenii pentru o conversație mai clară
         </h2>
         <p className="mt-4 text-base font-semibold leading-7 text-muted">
-          Domeniile structurează educația și auto-monitorizarea. Ele nu funcționează ca
-          etape clinice obligatorii sau calendar universal.
+          Mai jos vezi cele cinci domenii propuse de articol. Alege unul ca să vezi ce întrebări,
+          observații și idei poate pregăti pacientul pentru discuția cu clinicianul.
         </p>
       </div>
 
       <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-        {frameworkDomains.map((domain) => {
+        {frameworkDomains.map((domain, index) => {
           const selected = domain.id === selectedDomainId;
+          const Icon = domainIcons[index] ?? Stethoscope;
 
           return (
             <button
@@ -52,22 +70,30 @@ export function FrameworkMap({ selectedDomainId, onSelectDomain }: FrameworkMapP
                     accentClasses[domain.visualStyleKey]
                   )}
                 >
-                  <BookOpen aria-hidden="true" size={20} />
+                  <Icon aria-hidden="true" size={20} />
                 </span>
-                <p className="mt-5 text-sm font-black text-clinical">Domeniul {domain.order}</p>
+                <p
+                  className={cn(
+                    "mt-5 text-sm font-black",
+                    accentTextClasses[domain.visualStyleKey]
+                  )}
+                >
+                  Pasul {domain.order}
+                </p>
                 <h3 className="mt-2 text-lg font-black leading-6 text-ink">{domain.title}</h3>
                 <p className="mt-3 text-sm font-semibold leading-6 text-muted">
                   {domain.patientFriendlyMessage}
                 </p>
               </div>
-              <div className="mt-5 flex items-center gap-2 border-t border-ink/10 pt-4 text-xs font-black uppercase text-ink">
-                <MessageSquareText aria-hidden="true" size={15} />
-                <span>{domain.academicLabel}</span>
+              <div className="mt-5 flex items-center justify-between gap-2 border-t border-ink/10 pt-4 text-xs font-black uppercase text-ink">
+                <span>{selected ? "Pas selectat" : "Vezi detalii"}</span>
+                <ChevronRight aria-hidden="true" size={15} />
               </div>
             </button>
           );
         })}
       </div>
+
     </section>
   );
 }

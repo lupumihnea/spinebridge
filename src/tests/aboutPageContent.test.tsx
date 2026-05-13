@@ -42,7 +42,7 @@ describe("About academic rationale page", () => {
       screen.getByRole("heading", { name: "De ce este educațională, nu prescriptivă" })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "De ce munca și sportul sunt separate" })
+      screen.getByRole("heading", { name: "De ce trebuie tratate separat mai multe activități" })
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "De ce contează teach-back și automonitorizarea" })

@@ -16,8 +16,6 @@ import {
   UserCheck
 } from "lucide-react";
 
-import { ResearchMaturityLadder } from "@/components/research/ResearchMaturityLadder";
-import { EvidenceBoundaryLayer } from "@/components/safety/EvidenceBoundaryLayer";
 import { conceptSteps, frameworkDomains } from "@/data/framework";
 import { cn } from "@/lib/utils";
 
@@ -77,7 +75,7 @@ export function RecoveryMapPage() {
   return (
     <main className="min-h-screen overflow-hidden">
       <section className="relative border-b border-ink/10">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:px-8 lg:py-16">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
           <div className="min-w-0">
             <div className="inline-flex items-center gap-2 rounded-panel border border-clinical/20 bg-white/80 px-3 py-2 text-sm font-semibold text-clinical shadow-panel">
               <Route aria-hidden="true" size={16} />
@@ -86,28 +84,8 @@ export function RecoveryMapPage() {
             <h1 className="text-safe-wrap mt-6 max-w-4xl text-3xl font-black leading-tight text-ink sm:text-5xl lg:text-6xl">
               Harta educațională a recuperării funcționale
             </h1>
-            <p className="text-safe-wrap mt-5 max-w-3xl text-base leading-7 text-muted sm:text-lg sm:leading-8">
-              O reprezentare vizuală pentru educație, automonitorizare și dialog clinic, fără
-              diagnostic, tratament sau autorizare a progresiei.
-            </p>
           </div>
-
-          <aside className="min-w-0 overflow-hidden rounded-panel border border-ink/10 bg-white p-5 shadow-soft">
-            <p className="text-xs font-bold uppercase text-clinical">Explicație pentru juriu</p>
-            <p className="text-safe-wrap mt-3 text-xl font-bold leading-7 text-ink sm:text-2xl sm:leading-8">
-              Acesta este un cadru educațional, nu un algoritm clinic. Valoarea lui este
-              organizarea comunicării.
-            </p>
-            <div className="mt-5 rounded-panel border border-signal/20 bg-signal/5 p-4 text-sm font-semibold leading-6 text-signal">
-              Deciziile clinice rămân la echipa medicală.
-            </div>
-            <ResearchMaturityLadder className="mt-5 shadow-none" compact />
-          </aside>
         </div>
-      </section>
-
-      <section className="px-4 pt-10 sm:px-6 lg:px-8">
-        <EvidenceBoundaryLayer surface="recovery-map" />
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

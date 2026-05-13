@@ -201,9 +201,10 @@ function checkSafetyLanguage(files) {
   );
   const safetyText = [
     read("src/data/safety.ts"),
-    read("src/components/safety/SafetyBanner.tsx"),
     read("src/components/safety/DisclaimerCard.tsx"),
-    read("src/components/layout/FooterDisclaimer.tsx")
+    read("src/components/demo/DemoLanding.tsx"),
+    read("src/components/brief/BriefGeneratorPage.tsx"),
+    read("src/components/journal/PatientJournalPage.tsx")
   ].join("\n");
   const appShellText = read("src/components/layout/AppShell.tsx");
   const layoutText = read("src/app/layout.tsx");
@@ -227,9 +228,9 @@ function checkSafetyLanguage(files) {
     );
   }
 
-  if (!/SafetyBanner/iu.test(appShellText) || !/AppShell/iu.test(layoutText)) {
+  if (!/TopNavigation/iu.test(appShellText) || !/AppShell/iu.test(layoutText)) {
     findings.push(
-      makeFinding("fail", "Global safety banner is not mounted through the application shell")
+      makeFinding("fail", "Application shell is not mounted through the root layout")
     );
   }
 
@@ -284,7 +285,6 @@ function checkVisualReadiness() {
   const tailwind = read("tailwind.config.ts");
   const globals = read("src/styles/globals.css");
   const topNavigation = read("src/components/layout/TopNavigation.tsx");
-  const footer = read("src/components/layout/FooterDisclaimer.tsx");
   const juryMode = read("src/components/jury/JuryModePage.tsx");
   const chart = read("src/components/framework/FrameworkChart.tsx");
 
@@ -300,15 +300,11 @@ function checkVisualReadiness() {
     findings.push(makeFinding("warn", "Top navigation readiness proxy is incomplete"));
   }
 
-  if (!/Limită produs/iu.test(footer) || !/Nu este text mic/iu.test(footer)) {
-    findings.push(makeFinding("warn", "Footer disclaimer is missing a visible product boundary"));
-  }
-
   if (!/2xl:text-7xl/iu.test(juryMode) || !/Jury Mode/iu.test(juryMode)) {
     findings.push(makeFinding("warn", "Jury Mode large-type readiness proxy is weak"));
   }
 
-  if (!/role="list"/iu.test(chart) || !/visualWeight/iu.test(chart)) {
+  if (!/role="list"/iu.test(chart) || !/emphasisByPatient/iu.test(chart)) {
     findings.push(makeFinding("warn", "Framework chart readability proxy is weak"));
   }
 

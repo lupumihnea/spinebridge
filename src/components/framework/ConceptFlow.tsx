@@ -1,45 +1,45 @@
-import { ArrowRight } from "lucide-react";
+import {
+  Activity,
+  BriefcaseBusiness,
+  Footprints,
+  Home,
+  Stethoscope
+} from "lucide-react";
 
-import { conceptSteps } from "@/data/framework";
+import { frameworkDomains } from "@/data/framework";
+
+const domainIcons = [Stethoscope, Home, Footprints, BriefcaseBusiness, Activity];
 
 export function ConceptFlow() {
   return (
     <div className="max-w-full overflow-hidden rounded-panel border border-white/15 bg-ink p-5 text-white shadow-soft">
-      <div className="flex items-center justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase text-white/60">Model conceptual</p>
-          <h2 className="mt-1 break-words text-xl font-semibold">
-            De la evaluare la încredere funcțională
-          </h2>
-        </div>
-        <div className="hidden rounded-panel border border-white/15 px-3 py-2 text-xs text-white/70 sm:block">
-          Demo educațional
-        </div>
+      <div className="min-w-0">
+        <p className="text-xs font-semibold uppercase text-white/60">Cadrul propus în articol</p>
+        <h2 className="mt-1 break-words text-2xl font-black">
+          Cinci domenii pentru recuperare funcțională
+        </h2>
+        <p className="mt-2 text-sm font-semibold leading-6 text-white/68">
+          Fiecare domeniu traduce ideea academică în întrebări simple pentru pacient și clinician.
+        </p>
       </div>
       <div className="mt-5 grid gap-3">
-        {conceptSteps.map((step, index) => (
-          <div key={step.id} className="flex min-w-0 gap-3">
-            <div className="flex flex-col items-center">
-              <span className="flex h-8 w-8 items-center justify-center rounded-panel bg-white text-sm font-bold text-ink">
-                {index + 1}
+        {frameworkDomains.map((domain, index) => {
+          const Icon = domainIcons[index] ?? Stethoscope;
+
+          return (
+            <div key={domain.id} className="grid min-w-0 grid-cols-[2.75rem_minmax(0,1fr)] gap-3 rounded-panel border border-white/10 bg-white/10 p-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-panel bg-white text-clinical">
+                <Icon aria-hidden="true" size={20} />
               </span>
-              {index < conceptSteps.length - 1 ? (
-                <span className="my-1 h-full min-h-6 w-px bg-white/20" />
-              ) : null}
-            </div>
-            <div className="min-w-0 pb-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <p className="min-w-0 break-words font-semibold">{step.label}</p>
-                {index < conceptSteps.length - 1 ? (
-                  <ArrowRight aria-hidden="true" className="shrink-0 text-clinical" size={15} />
-                ) : null}
+              <div className="min-w-0">
+                <p className="text-xs font-black uppercase text-clinical">Pasul {domain.order}</p>
+                <h3 className="mt-1 break-words text-base font-black leading-6 text-white">
+                  {domain.title}
+                </h3>
               </div>
-              <p className="mt-1 break-words text-sm leading-6 text-white/70">
-                {step.description}
-              </p>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import type { LucideIcon } from "lucide-react";
 import React from "react";
 import {
-  ArrowRight,
   BookOpenCheck,
   ClipboardList,
   FileWarning,
@@ -100,10 +99,10 @@ const rationaleBlocks: RationaleBlock[] = [
       "Lucrarea propune o traducere educațională a informațiilor: diagnostic, restricții, semnale de alarmă, automonitorizare și întrebări pentru consult. Aplicația păstrează decizia medicală în afara interfeței și nu transformă observațiile utilizatorului în conduită clinică."
   },
   {
-    title: "De ce munca și sportul sunt separate",
+    title: "De ce trebuie tratate separat mai multe activități",
     icon: Route,
     body:
-      "Revenirea la muncă este un indicator funcțional cu cerințe variabile: ședere prelungită, condus, program parțial, sarcini modificate sau efort fizic. Sportul este un subdomeniu selectiv, cu dovezi mai limitate și cerințe de intensitate, impact și repetare care nu pot fi tratate ca echivalente cu activitățile profesionale."
+      "Șederea prelungită, condusul, mersul, ridicarea, sala, alergarea și sportul de contact solicită corpul în moduri diferite. De aceea aplicația separă activitățile în conversații distincte, cu întrebări și observații potrivite fiecărui tip de cerință."
   },
   {
     title: "De ce contează teach-back și automonitorizarea",
@@ -142,13 +141,6 @@ export default function AboutPage() {
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <ActionLink href="/recovery-map" icon={<BookOpenCheck aria-hidden="true" size={18} />}>
                 Vezi cadrul educațional
-              </ActionLink>
-              <ActionLink
-                href="/work-vs-sport"
-                icon={<ArrowRight aria-hidden="true" size={18} />}
-                variant="secondary"
-              >
-                Muncă vs sport
               </ActionLink>
             </div>
           </div>

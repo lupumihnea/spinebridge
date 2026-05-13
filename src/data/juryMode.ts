@@ -77,19 +77,19 @@ export const jurySteps: JuryStep[] = [
   },
   {
     id: "work-sport",
-    eyebrow: "7 / Muncă vs sport",
-    title: "Munca și sportul sunt discuții diferite",
+    eyebrow: "7 / Activități",
+    title: "Activitățile se clarifică separat",
     statement:
-      "Activitățile zilnice, munca și sala au cerințe diferite; tolerarea uneia nu transferă automat concluzii către cealaltă.",
+      "Condusul, șederea, ridicarea, alergarea, sala și sportul de contact au cerințe diferite; tolerarea uneia nu transferă automat concluzii către alta.",
     presenterNote:
-      "Folosește boundary-ul: date raportate de pacient nu înseamnă autorizare medicală."
+      "Folosește selectorul de activități: fiecare cerință produce întrebări diferite pentru consultație."
   },
   {
     id: "brief",
     eyebrow: "8 / Brief",
     title: "Rezumat printabil pentru consultație",
     statement:
-      "Brief-ul adună profilul fictiv, jurnalul, semnalele, teach-back-ul, cerințele muncă/sport și întrebările pentru echipa medicală.",
+      "Brief-ul adună profilul fictiv, jurnalul, semnalele, teach-back-ul, cerințele activităților selectate și întrebările pentru echipa medicală.",
     presenterNote:
       "Spune că acesta este livrabilul practic: o conversație mai bună la consult."
   },

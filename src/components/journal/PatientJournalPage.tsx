@@ -2,12 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
-  Activity,
-  AlertTriangle,
   BarChart3,
   CalendarDays,
   ClipboardList,
-  MessageSquareText,
   RotateCcw,
   Save,
   UserRound
@@ -17,7 +14,6 @@ import { demoPatients } from "@/data/demoPatients";
 import { type DemoJournalEntry, seededJournalEntries } from "@/data/seededJournalEntries";
 import { redFlags } from "@/data/safety";
 import { RedFlagTriggerPanel } from "@/components/journal/RedFlagTriggerPanel";
-import { EvidenceBoundaryLayer } from "@/components/safety/EvidenceBoundaryLayer";
 import {
   evaluateSafetyRules,
   type SafetyEngineResult,
@@ -64,18 +60,6 @@ function toSafetyEntry(entry: DemoJournalEntry) {
     sittingToleranceMinutes: entry.sittingMinutes,
     notes: entry.notes
   };
-}
-
-function getStatusStyles(status: SafetyEngineResult["status"]) {
-  if (status === "RED") {
-    return "border-signal/30 bg-signal/10 text-signal";
-  }
-
-  if (status === "YELLOW") {
-    return "border-saffron/40 bg-saffron/10 text-saffron";
-  }
-
-  return "border-clinical/30 bg-clinical/10 text-clinical";
 }
 
 function numberInputValue(value: number) {
@@ -315,27 +299,6 @@ export function PatientJournalPage() {
 
   const redFlagMode = Boolean(redFlagExperienceSafety);
 
-  const latestSafety = useMemo(() => {
-    const latest = selectedEntries[selectedEntries.length - 1];
-    if (!latest) {
-      return undefined;
-    }
-
-    const previous = selectedEntries.slice(0, -1).map(toSafetyEntry);
-    const selectedRedFlagSymptoms = latest.redFlagSymptoms.flatMap((flagId) => {
-      const flag = redFlags.find((item) => item.id === flagId);
-      return flag ? [flag.id, flag.label] : [flagId];
-    });
-
-    return evaluateSafetyRules({
-      currentJournalEntry: toSafetyEntry(latest),
-      previousJournalEntries: previous,
-      selectedRedFlagSymptoms,
-      patientRestrictionsText: selectedPatient.restrictionsText,
-      targetActivityType: latest.targetActivityType
-    });
-  }, [selectedEntries, selectedPatient.restrictionsText]);
-
   function updateForm<T extends keyof typeof form>(key: T, value: (typeof form)[T]) {
     setForm((current) => ({ ...current, [key]: value }));
   }
@@ -372,38 +335,27 @@ export function PatientJournalPage() {
     <main className="min-h-screen overflow-hidden">
       <section className="border-b border-ink/10">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)] lg:items-end">
             <div className="min-w-0">
               <div className="inline-flex items-center gap-2 rounded-panel border border-clinical/20 bg-white/80 px-3 py-2 text-sm font-bold text-clinical shadow-panel">
                 <ClipboardList aria-hidden="true" size={16} />
                 <span>Jurnal pacient</span>
               </div>
               <h1 className="text-safe-wrap mt-6 text-4xl font-black leading-tight text-ink sm:text-6xl">
-                Jurnal educațional pentru dialog clinic
+                Alege pacientul și construiește jurnalul demo
               </h1>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-muted">
-                Notează observații funcționale fictive, urmărește trenduri educaționale și
-                pregătește întrebări pentru clinician. Nu reprezintă autorizare medicală.
+                Selectează un scenariu fictiv, adaugă observații simple și vezi imediat ce întrebări
+                se pot pregăti pentru discuția clinică.
               </p>
             </div>
-            <aside className="rounded-panel border border-signal/20 bg-white p-5 shadow-soft">
-              <p className="text-sm font-black uppercase text-signal">Limită vizibilă</p>
-              <p className="mt-3 text-xl font-black leading-7 text-ink">
-                Dashboard-ul organizează informații. Nu decide progresia, tratamentul sau revenirea
-                la sport.
-              </p>
-            </aside>
           </div>
         </div>
       </section>
 
-      <section className="px-4 pt-10 sm:px-6 lg:px-8">
-        <EvidenceBoundaryLayer surface="journal" />
-      </section>
-
-      <section className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[22rem_minmax(0,1fr)] lg:px-8">
+      <section className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[24rem_minmax(0,1fr)] lg:px-8">
         <aside className="space-y-5">
-          <div className="rounded-panel border border-ink/10 bg-white p-5 shadow-panel">
+          <div className="rounded-panel border border-clinical/20 bg-white p-5 shadow-soft">
             <div className="flex items-center gap-3">
               <span className="flex h-10 w-10 items-center justify-center rounded-panel bg-clinical/10 text-clinical">
                 <UserRound aria-hidden="true" size={20} />
@@ -413,6 +365,15 @@ export function PatientJournalPage() {
                 <h2 className="text-xl font-black text-ink">Selectează pacientul</h2>
               </div>
             </div>
+            <div className="mt-5 rounded-panel border border-clinical/20 bg-clinical/10 p-4">
+              <p className="text-xs font-black uppercase text-clinical">Profil curent</p>
+              <h3 className="mt-1 text-2xl font-black text-ink">
+                {selectedPatient.fictionalName}, {selectedPatient.age} ani
+              </h3>
+              <p className="mt-2 text-sm font-semibold leading-6 text-muted">
+                {selectedPatient.demoNarrative}
+              </p>
+            </div>
             <div className="mt-5 grid gap-3">
               {demoPatients.map((patient) => {
                 const selected = patient.id === selectedPatientId;
@@ -421,8 +382,8 @@ export function PatientJournalPage() {
                     className={cn(
                       "focus-ring rounded-panel border p-4 text-left transition",
                       selected
-                        ? "border-clinical bg-clinical/10"
-                        : "border-ink/10 bg-white hover:border-clinical/30"
+                        ? "border-clinical bg-clinical/10 shadow-panel"
+                        : "border-ink/10 bg-white hover:-translate-y-0.5 hover:border-clinical/30 hover:shadow-panel"
                     )}
                     key={patient.id}
                     onClick={() => {
@@ -452,7 +413,7 @@ export function PatientJournalPage() {
         </aside>
 
         <div className="grid gap-6">
-          <section className="rounded-panel border border-ink/10 bg-white p-5 shadow-soft">
+          <section className="rounded-panel border border-ink/10 bg-white p-5 shadow-soft sm:p-6">
             <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
               <div>
                 <p className="text-xs font-black uppercase text-clinical">Înregistrare nouă</p>
@@ -614,98 +575,6 @@ export function PatientJournalPage() {
             />
           </section>
 
-          {latestSafety ? (
-            <section
-              className={cn(
-                "grid gap-5 transition duration-300 lg:grid-cols-[1fr_1fr]",
-                redFlagMode && "opacity-30 grayscale"
-              )}
-              data-testid="journal-latest-safety"
-            >
-              <div
-                className={cn(
-                  "rounded-panel border p-5 shadow-panel",
-                  getStatusStyles(latestSafety.status)
-                )}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-panel bg-white/80">
-                    {latestSafety.status === "RED" ? (
-                      <AlertTriangle aria-hidden="true" size={22} />
-                    ) : (
-                      <Activity aria-hidden="true" size={22} />
-                    )}
-                  </span>
-                  <div>
-                    <p className="text-xs font-black uppercase">Ultimul status educațional</p>
-                    <h2 className="text-2xl font-black text-ink">{latestSafety.title}</h2>
-                  </div>
-                </div>
-                <p className="mt-4 text-base font-semibold leading-7 text-ink">
-                  {latestSafety.explanation}
-                </p>
-                <p className="mt-4 rounded-panel bg-white/80 p-4 text-sm font-bold leading-6 text-ink">
-                  {latestSafety.recommendedNextStepText}
-                </p>
-                <div className="mt-4">
-                  <p className="text-sm font-black uppercase">Reguli declanșate</p>
-                  <ul className="mt-2 space-y-2 text-sm leading-6 text-ink">
-                    {latestSafety.triggeredRules.length > 0 ? (
-                      latestSafety.triggeredRules.map((rule) => (
-                        <li key={rule.id}>• {rule.label}</li>
-                      ))
-                    ) : (
-                      <li>• Nicio regulă de escaladare în scenariul curent.</li>
-                    )}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="rounded-panel border border-ink/10 bg-white p-5 shadow-panel">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-panel bg-clinical/10 text-clinical">
-                    <MessageSquareText aria-hidden="true" size={22} />
-                  </span>
-                  <div>
-                    <p className="text-xs font-black uppercase text-clinical">
-                      Ce discut cu clinicianul?
-                    </p>
-                    <h2 className="text-2xl font-black text-ink">Întrebări pentru consult</h2>
-                  </div>
-                </div>
-                <ul className="mt-5 space-y-3 text-sm leading-6 text-ink">
-                  {latestSafety.clinicianQuestions.map((question) => (
-                    <li className="rounded-panel bg-paper p-3 font-semibold" key={question}>
-                      {question}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-5 rounded-panel border border-signal/20 bg-signal/5 p-4 text-sm font-black leading-6 text-signal">
-                  Nu reprezintă autorizare medicală. Date pentru discuția clinică.
-                </div>
-              </div>
-            </section>
-          ) : (
-            <section className="rounded-panel border border-dashed border-ink/20 bg-white p-6 shadow-panel">
-              <div className="flex items-start gap-3">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-panel bg-clinical/10 text-clinical">
-                  <MessageSquareText aria-hidden="true" size={22} />
-                </span>
-                <div>
-                  <p className="text-sm font-black uppercase text-clinical">
-                    Stare goală pentru status educațional
-                  </p>
-                  <h2 className="mt-1 text-2xl font-black text-ink">
-                    Adaugă prima intrare pentru acest scenariu fictiv.
-                  </h2>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-muted">
-                    După ce există date, aplicația poate organiza întrebări pentru consultație, fără
-                    să decidă progresia.
-                  </p>
-                </div>
-              </div>
-            </section>
-          )}
         </div>
       </section>
     </main>

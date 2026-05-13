@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, BookOpen, MonitorPlay, RotateCcw, ShieldCheck } from "lucide-react";
+import { Activity, BookOpen, BriefcaseBusiness, Footprints, RotateCcw } from "lucide-react";
 
 import { ActionLink } from "@/components/ActionLink";
 import { ConsultationBrief } from "@/components/brief/ConsultationBrief";
@@ -10,17 +10,17 @@ import { ConceptFlow } from "@/components/framework/ConceptFlow";
 import { FrameworkChart } from "@/components/framework/FrameworkChart";
 import { FrameworkMap } from "@/components/framework/FrameworkMap";
 import { JournalPanel } from "@/components/journal/JournalPanel";
-import { DisclaimerCard } from "@/components/safety/DisclaimerCard";
 import { frameworkDomains } from "@/data/framework";
 import { seededPatients } from "@/data/patients";
 import { useDemoState } from "@/lib/demo-state";
 import { PatientSelector } from "./PatientSelector";
 
-const introStats = [
-  { label: "Domenii educaționale", value: "5" },
-  { label: "Flux pentru juriu", value: "7 min" },
-  { label: "Server extern", value: "0" }
-];
+const patientIconById = {
+  "runner-recreational": Footprints,
+  "office-driving": BriefcaseBusiness,
+  "physical-worker": BriefcaseBusiness,
+  "gym-no-pain": Activity
+};
 
 export function DemoLanding() {
   const { state, setState, resetState } = useDemoState();
@@ -34,6 +34,8 @@ export function DemoLanding() {
     () => frameworkDomains.find((domain) => domain.id === state.domainId) ?? frameworkDomains[0],
     [state.domainId]
   );
+  const SelectedPatientIcon =
+    patientIconById[selectedPatient.id as keyof typeof patientIconById] ?? Activity;
 
   return (
     <main className="overflow-hidden">
@@ -51,41 +53,26 @@ export function DemoLanding() {
               initial={false}
               transition={{ duration: 0.25, ease: "easeOut" }}
             >
-              <div className="inline-flex items-center gap-2 rounded-panel border border-clinical/20 bg-white/88 px-3 py-2 text-sm font-black text-clinical shadow-panel">
-                <MonitorPlay aria-hidden="true" size={16} />
-                <span>Demo academic live pentru juriu</span>
-              </div>
-              <h1 className="text-safe-wrap mt-8 max-w-full text-4xl font-black leading-tight text-ink sm:text-7xl lg:text-8xl">
-                SpineBridge Live
+              <h1 className="text-safe-wrap max-w-full text-5xl font-black leading-tight text-ink sm:text-7xl lg:text-8xl">
+                SpineBridge
               </h1>
               <p className="text-safe-wrap mt-5 max-w-2xl text-xl font-bold leading-8 text-muted sm:text-2xl sm:leading-9">
-                Simulator educațional pentru înțelegere, automonitorizare și dialog clinic
+                Legătura dintre tine și spatele tău.
               </p>
-              <div className="mt-7 max-w-2xl">
-                <DisclaimerCard />
-              </div>
+              <p className="mt-5 max-w-2xl text-base font-semibold leading-7 text-ink">
+                Alege un exemplu de caz, vezi cadrul propus în articol și transformă observațiile
+                pacientului în întrebări mai clare pentru consultație.
+              </p>
               <div className="mt-7 flex max-w-full flex-col gap-3 sm:flex-row">
-                <ActionLink href="/jury" icon={<ArrowRight aria-hidden="true" size={18} />}>
-                  Deschide Jury Mode
-                </ActionLink>
                 <ActionLink
                   href="#cadru"
                   icon={<BookOpen aria-hidden="true" size={18} />}
-                  variant="secondary"
                 >
                   Explorează cadrul educațional
                 </ActionLink>
-              </div>
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                {introStats.map((stat) => (
-                  <div
-                    className="rounded-panel border border-ink/10 bg-white/82 p-4 shadow-panel"
-                    key={stat.label}
-                  >
-                    <p className="text-4xl font-black text-ink">{stat.value}</p>
-                    <p className="mt-1 text-sm font-bold leading-5 text-muted">{stat.label}</p>
-                  </div>
-                ))}
+                <ActionLink href="#demo" variant="secondary">
+                  Alege un exemplu de caz
+                </ActionLink>
               </div>
             </motion.div>
 
@@ -104,13 +91,13 @@ export function DemoLanding() {
       <section id="demo" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
           <div className="max-w-3xl">
-            <p className="text-sm font-black uppercase text-clinical">Panou demo</p>
+            <p className="text-sm font-black uppercase text-clinical">Încearcă demo-ul</p>
             <h2 className="mt-3 text-3xl font-black text-ink sm:text-4xl">
-              O experiență ghidată pentru prezentare
+              Alege o poveste, apoi vezi cum se organizează conversația.
             </h2>
             <p className="mt-4 text-base font-semibold leading-7 text-muted">
-              Selecțiile sunt salvate doar în localStorage pentru stabilitate în demo. Nu există
-              server extern și nu se folosesc date reale.
+              Fiecare exemplu schimbă accentul discuției: muncă, condus, mers, sală sau simptome de
+              comunicat. Tot ce vezi este demonstrativ și rămâne pe acest dispozitiv.
             </p>
           </div>
           <button
@@ -123,16 +110,12 @@ export function DemoLanding() {
           </button>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <PatientSelector
-            onSelectPatient={(patientId) => setState((current) => ({ ...current, patientId }))}
-            selectedPatientId={state.patientId}
-          />
+        <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="grid gap-5">
             <div className="rounded-panel border border-ink/10 bg-white p-5 shadow-panel sm:p-6">
               <div className="flex items-start gap-3">
                 <span className="flex h-12 w-12 items-center justify-center rounded-panel bg-clinical/10 text-clinical">
-                  <ShieldCheck aria-hidden="true" size={20} />
+                  <SelectedPatientIcon aria-hidden="true" size={20} />
                 </span>
                 <div>
                   <p className="text-sm font-black uppercase text-clinical">Context selectat</p>
@@ -141,34 +124,30 @@ export function DemoLanding() {
                   </h3>
                 </div>
               </div>
-              <div className="mt-5 grid gap-4 md:grid-cols-3">
-                <div>
-                  <p className="text-xs font-black uppercase text-muted">Muncă</p>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-ink">
-                    {selectedPatient.functionalGoals.work}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs font-black uppercase text-muted">Activitate cotidiană</p>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-ink">
-                    {selectedPatient.functionalGoals.dailyActivity}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs font-black uppercase text-muted">Sport</p>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-ink">
-                    {selectedPatient.functionalGoals.sportOrFitness}
-                  </p>
-                </div>
-              </div>
-              <div className="mt-5 rounded-panel border border-ink/10 bg-paper p-4">
-                <p className="text-sm font-semibold text-ink">
-                  {selectedPatient.treatmentPathway.note}
-                </p>
+              <div className="mt-5 overflow-hidden rounded-panel border border-ink/10 bg-white shadow-inset">
+                {[
+                  ["Muncă", selectedPatient.functionalGoals.work],
+                  ["Activitate cotidiană", selectedPatient.functionalGoals.dailyActivity],
+                  ["Sport / sală", selectedPatient.functionalGoals.sportOrFitness]
+                ].map(([label, value]) => (
+                  <div
+                    className="grid gap-2 border-b border-ink/10 p-4 last:border-b-0 md:grid-cols-[11rem_minmax(0,1fr)] md:items-center"
+                    key={label}
+                  >
+                    <p className="text-xs font-black uppercase tracking-wide text-clinical">
+                      {label}
+                    </p>
+                    <p className="text-sm font-semibold leading-6 text-ink">{value}</p>
+                  </div>
+                ))}
               </div>
             </div>
-            <FrameworkChart />
+            <FrameworkChart patient={selectedPatient} />
           </div>
+          <PatientSelector
+            onSelectPatient={(patientId) => setState((current) => ({ ...current, patientId }))}
+            selectedPatientId={state.patientId}
+          />
         </div>
       </section>
 
@@ -181,10 +160,11 @@ export function DemoLanding() {
         <div className="mb-8 max-w-3xl">
           <p className="text-sm font-black uppercase text-clay">Auto-monitorizare</p>
           <h2 className="mt-3 text-3xl font-black text-ink sm:text-4xl">
-            Jurnal, semnale de alarmă și întrebări
+            Ce vede pacientul și ce poate pregăti
           </h2>
           <p className="mt-4 text-base font-semibold leading-7 text-muted">
-            {selectedDomain.suggestedQuestionsForClinician[0]}
+            Pacientul bifează observații ușor de uitat, vede separat semnalele importante și obține
+            material simplu pentru o discuție mai ordonată.
           </p>
         </div>
         <JournalPanel setState={setState} state={state} />

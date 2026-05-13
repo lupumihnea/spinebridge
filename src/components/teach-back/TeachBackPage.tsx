@@ -12,7 +12,6 @@ import {
   Sparkles
 } from "lucide-react";
 
-import { EvidenceBoundaryLayer } from "@/components/safety/EvidenceBoundaryLayer";
 import {
   analyzeTeachBack,
   teachBackDemoExample,
@@ -33,6 +32,39 @@ const clearInput: TeachBackAnalyzerInput = {
   redFlagSymptoms: "",
   workSportDifference: ""
 };
+
+const exampleInputs: Array<{ label: string; description: string; input: TeachBackAnalyzerInput }> = [
+  {
+    label: "Sala prea devreme",
+    description: "Arată cum aplicația marchează confuzia dintre lipsa durerii și efort complet.",
+    input: emptyInput
+  },
+  {
+    label: "Restricții clare",
+    description: "Un exemplu mai bun pentru dialog: restricții, semnale și muncă vs sport separate.",
+    input: {
+      fractureUnderstanding:
+        "Am înțeles că fractura trebuie urmărită după indicațiile echipei medicale și că nu forțez doar pentru că durerea este mică.",
+      restrictions:
+        "Mi s-au comunicat restricții despre ridicare, stat prelungit și revenirea treptată la activități, stabilite de clinician.",
+      redFlagSymptoms:
+        "Aș contacta medicul pentru slăbiciune nouă, amorțeală, durere radiculară severă, modificări urinare sau ale mersului.",
+      workSportDifference:
+        "Munca, condusul și sportul au cerințe diferite și trebuie discutate separat cu clinicianul."
+    }
+  },
+  {
+    label: "Muncă confundată cu sport",
+    description: "Scoate la suprafață o neclaritate frecventă: toleranța la birou nu înseamnă sală.",
+    input: {
+      fractureUnderstanding:
+        "Dacă pot sta la birou câteva ore, probabil pot reveni și la antrenamente dacă mă simt bine.",
+      restrictions: "Nu mai știu exact ce restricții au fost comunicate.",
+      redFlagSymptoms: "Aș suna dacă apare amorțeală sau slăbiciune.",
+      workSportDifference: "Cred că sunt asemănătoare dacă nu doare."
+    }
+  }
+];
 
 const fieldConfig: Array<{
   key: keyof TeachBackAnalyzerInput;
@@ -98,33 +130,22 @@ export function TeachBackPage() {
   return (
     <main className="min-h-screen overflow-hidden">
       <section className="border-b border-ink/10">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[minmax(0,1fr)_25rem] lg:px-8 lg:py-16">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
           <div className="min-w-0">
             <div className="inline-flex items-center gap-2 rounded-panel border border-clinical/20 bg-white/80 px-3 py-2 text-sm font-bold text-clinical shadow-panel">
               <Brain aria-hidden="true" size={17} />
               <span>Teach-Back</span>
             </div>
-            <h1 className="text-safe-wrap mt-6 max-w-4xl text-4xl font-black leading-tight text-ink sm:text-6xl">
-              Asistent de claritate pentru ce a înțeles pacientul
-            </h1>
-            <p className="mt-5 max-w-3xl text-lg leading-8 text-muted">
-              Pacientul formulează în propriile cuvinte. Aplicația marchează neclarități și
-              concepții riscante pentru dialog clinic, fără diagnostic, tratament sau progresie.
-            </p>
+              <h1 className="text-safe-wrap mt-6 max-w-4xl text-4xl font-black leading-tight text-ink sm:text-6xl">
+              Testează claritatea mesajului pacientului
+              </h1>
+              <p className="mt-5 max-w-3xl text-lg leading-8 text-muted">
+              Scrii ce ai înțeles, alegi un exemplu dacă vrei, iar asistentul marchează unde
+              formularea poate deveni mai clară pentru conversația cu clinicianul.
+              </p>
           </div>
 
-          <aside className="rounded-panel border border-signal/20 bg-white p-5 shadow-soft">
-            <p className="text-sm font-black uppercase text-signal">Limită vizibilă</p>
-            <p className="mt-3 text-xl font-black leading-7 text-ink">
-              Analiza este educațională. Nu validează activități, nu schimbă restricții și nu
-              transformă lipsa durerii în concluzie clinică.
-            </p>
-          </aside>
         </div>
-      </section>
-
-      <section className="px-4 pt-10 sm:px-6 lg:px-8">
-        <EvidenceBoundaryLayer surface="teach-back" />
       </section>
 
       <section className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_25rem] lg:px-8">
@@ -155,6 +176,22 @@ export function TeachBackPage() {
                   Curăță
                 </button>
               </div>
+            </div>
+
+            <div className="mt-6 grid gap-3 lg:grid-cols-3">
+              {exampleInputs.map((example) => (
+                <button
+                  className="focus-ring rounded-panel border border-ink/10 bg-paper p-4 text-left transition hover:-translate-y-0.5 hover:border-clinical/30 hover:bg-white hover:shadow-panel"
+                  key={example.label}
+                  onClick={() => setInput(example.input)}
+                  type="button"
+                >
+                  <p className="text-sm font-black text-clinical">{example.label}</p>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-muted">
+                    {example.description}
+                  </p>
+                </button>
+              ))}
             </div>
 
             <div className="mt-6 grid gap-4">

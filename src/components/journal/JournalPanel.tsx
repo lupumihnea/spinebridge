@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
-import { AlertTriangle, ClipboardList } from "lucide-react";
+import { AlertTriangle, ArrowRight, ClipboardList } from "lucide-react";
 
 import { journalItems } from "@/data/journal";
 import { redFlagEscalation, redFlags } from "@/data/safety";
@@ -17,15 +17,15 @@ function toggleValue(values: string[], value: string) {
 
 export function JournalPanel({ state, setState }: JournalPanelProps) {
   return (
-    <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
+    <div className="grid gap-4 lg:grid-cols-[1fr_3rem_1fr] lg:items-stretch">
       <div className="rounded-panel border border-ink/10 bg-white p-5 shadow-panel sm:p-6">
         <div className="flex items-center gap-3">
           <span className="flex h-12 w-12 items-center justify-center rounded-panel bg-clay/10 text-clay">
             <ClipboardList aria-hidden="true" size={20} />
           </span>
           <div>
-            <p className="text-sm font-black uppercase text-clay">Jurnal demonstrativ</p>
-            <h3 className="text-xl font-black text-ink">Observații de comunicat</h3>
+            <p className="text-sm font-black uppercase text-clay">Pacientul poate nota</p>
+            <h3 className="text-xl font-black text-ink">Observații utile pentru consult</h3>
           </div>
         </div>
         <div className="mt-5 grid gap-3">
@@ -61,18 +61,12 @@ export function JournalPanel({ state, setState }: JournalPanelProps) {
             );
           })}
         </div>
-        <label className="mt-4 block">
-          <span className="text-sm font-black text-ink">Notă scurtă pentru prezentare</span>
-          <textarea
-            className="focus-ring premium-transition mt-2 min-h-24 w-full resize-none rounded-panel border border-ink/10 bg-paper/70 p-3 text-sm font-semibold leading-6 text-ink placeholder:text-muted/70 hover:border-clinical/25"
-            maxLength={280}
-            onChange={(event) =>
-              setState((current) => ({ ...current, briefNote: event.target.value }))
-            }
-            placeholder="Exemplu: întrebări despre navetă, stat prelungit la birou sau comunicarea simptomelor."
-            value={state.briefNote}
-          />
-        </label>
+      </div>
+
+      <div className="hidden items-center justify-center lg:flex" aria-hidden="true">
+        <span className="flex h-12 w-12 items-center justify-center rounded-full border border-ink/10 bg-white text-clinical shadow-panel">
+          <ArrowRight size={20} />
+        </span>
       </div>
 
       <div className="rounded-panel border border-signal/20 bg-white p-5 shadow-panel sm:p-6">
@@ -81,8 +75,8 @@ export function JournalPanel({ state, setState }: JournalPanelProps) {
             <AlertTriangle aria-hidden="true" size={20} />
           </span>
           <div>
-            <p className="text-sm font-black uppercase text-signal">Semnale de alarmă</p>
-            <h3 className="text-xl font-black text-ink">Comunicare promptă, fără interpretare</h3>
+            <p className="text-sm font-black uppercase text-signal">Semnale de comunicat</p>
+            <h3 className="text-xl font-black text-ink">Bifează dacă apare ceva important</h3>
           </div>
         </div>
         <div className="mt-5 grid gap-2 sm:grid-cols-2">
