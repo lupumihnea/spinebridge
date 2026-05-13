@@ -20,10 +20,12 @@ import {
 import { cn } from "@/lib/utils";
 
 const emptyInput: TeachBackAnalyzerInput = {
-  fractureUnderstanding: teachBackDemoExample.input,
+  fractureUnderstanding:
+    "Dacă nu mă mai doare, pot merge la sală. Cred că lipsa durerii arată că pot reveni complet dacă mă simt bine.",
   restrictions: "",
-  redFlagSymptoms: "",
-  workSportDifference: ""
+  redFlagSymptoms: "Aș suna doar dacă durerea devine foarte mare.",
+  workSportDifference:
+    "Pentru mine munca și sala par asemănătoare dacă nu apare durere în timpul zilei."
 };
 
 const clearInput: TeachBackAnalyzerInput = {
@@ -36,7 +38,8 @@ const clearInput: TeachBackAnalyzerInput = {
 const exampleInputs: Array<{ label: string; description: string; input: TeachBackAnalyzerInput }> = [
   {
     label: "Sala prea devreme",
-    description: "Arată cum aplicația marchează confuzia dintre lipsa durerii și efort complet.",
+    description:
+      "Simulează un pacient care completează toate câmpurile, dar confundă lipsa durerii cu permisiunea pentru efort.",
     input: emptyInput
   },
   {
@@ -214,12 +217,19 @@ export function TeachBackPage() {
               <ShieldCheck aria-hidden="true" className="mt-1 shrink-0 text-clinical" size={22} />
               <div>
                 <p className="text-sm font-black uppercase text-white/70">
-                  Ce face analiza deterministă
+                  Ce vede juriul aici
                 </p>
-                <p className="mt-2 text-base font-semibold leading-7 text-white">
-                  Caută indicii de claritate, semnale de alarmă menționate și formulări riscante.
-                  Nu oferă pași de tratament, program de exerciții sau decizii despre revenire.
-                </p>
+                <div className="mt-3 grid gap-3 text-base font-semibold leading-7 text-white">
+                  <p>
+                    Pacientul scrie cu propriile cuvinte ce a înțeles. Modulul arată unde mesajul
+                    este clar și unde poate deveni o întrebare mai bună pentru consultație.
+                  </p>
+                  <p className="text-white/80">
+                    Regula este transparentă: caută restricții menționate, semnale de alarmă,
+                    diferența dintre activități și formulări riscante de tipul „nu doare, deci pot
+                    forța”.
+                  </p>
+                </div>
               </div>
             </div>
           </section>
@@ -240,17 +250,47 @@ export function TeachBackPage() {
                 </p>
                 <h2 className="mt-1 text-2xl font-black text-ink">Claritate teach-back</h2>
               </div>
-              <div
-                className={cn(
-                  "flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-8 text-xl font-black",
-                  tone.surface,
-                  tone.color
-                )}
-                style={{
-                  backgroundImage: `conic-gradient(currentColor ${analysis.clarityScore}%, rgba(23,32,29,0.08) 0)`
-                }}
-              >
-                <span className="rounded-full bg-white px-2 py-1">{analysis.clarityScore}</span>
+              <div className="relative h-24 w-24 shrink-0">
+                <svg className="h-24 w-24 -rotate-90" viewBox="0 0 100 100" aria-hidden="true">
+                  <circle
+                    className="text-ink/10"
+                    cx="50"
+                    cy="50"
+                    fill="none"
+                    r="38"
+                    stroke="currentColor"
+                    strokeWidth="10"
+                  />
+                  <motion.circle
+                    animate={{ pathLength: analysis.clarityScore / 100 }}
+                    className={tone.color}
+                    cx="50"
+                    cy="50"
+                    fill="none"
+                    initial={false}
+                    r="38"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeWidth="10"
+                    transition={{ duration: 0.45, ease: "easeOut" }}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center rounded-full">
+                  <span className={cn("text-2xl font-black leading-none", tone.color)}>
+                    {analysis.clarityScore}
+                  </span>
+                  <span className="mt-1 text-[10px] font-black uppercase text-muted">din 100</span>
+                </div>
+                <span
+                  className={cn(
+                    "absolute right-2 top-2 h-3 w-3 rounded-full border-2 border-white shadow-panel",
+                    analysis.clarityScore >= 75
+                      ? "bg-clinical"
+                      : analysis.clarityScore >= 45
+                        ? "bg-saffron"
+                        : "bg-signal"
+                  )}
+                />
               </div>
             </div>
 

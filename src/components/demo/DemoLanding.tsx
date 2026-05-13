@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Activity, BookOpen, BriefcaseBusiness, Footprints, RotateCcw } from "lucide-react";
 
 import { ActionLink } from "@/components/ActionLink";
@@ -53,6 +54,18 @@ export function DemoLanding() {
               initial={false}
               transition={{ duration: 0.25, ease: "easeOut" }}
             >
+              <div className="mb-8 flex justify-center lg:justify-center xl:translate-x-6">
+                <div className="overflow-hidden rounded-[1.75rem] border border-ink/10 bg-white px-6 py-5 shadow-lift">
+                  <Image
+                    alt="Logo SpineBridge"
+                    className="h-auto w-56 sm:w-72"
+                    height={320}
+                    priority
+                    src="/brand/spinebridge-logo-cropped.png"
+                    width={360}
+                  />
+                </div>
+              </div>
               <h1 className="text-safe-wrap max-w-full text-5xl font-black leading-tight text-ink sm:text-7xl lg:text-8xl">
                 SpineBridge
               </h1>

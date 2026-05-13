@@ -34,8 +34,8 @@ const majorPages = [
     files: ["src/app/teach-back/page.tsx", "src/components/teach-back/TeachBackPage.tsx"]
   },
   {
-    route: "/work-vs-sport",
-    files: ["src/app/work-vs-sport/page.tsx", "src/components/work-vs-sport/WorkVsSportPage.tsx"]
+    route: "/activities",
+    files: ["src/app/activities/page.tsx", "src/components/work-vs-sport/WorkVsSportPage.tsx"]
   },
   {
     route: "/brief",
@@ -338,8 +338,11 @@ function checkAcademicFidelity() {
     findings.push(makeFinding("warn", "About page academic rationale proxy is incomplete"));
   }
 
-  if (!hasAll(workSport, [/muncă/iu, /sport/iu]) || !hasAny(workSport, [/discuții\s+(diferite|separate)/iu, /muncă\s*≠\s*revenire\s+la\s+sport/iu])) {
-    findings.push(makeFinding("warn", "Work versus sport separation is weak"));
+  if (
+    !hasAll(workSport, [/activitate/iu, /condus/iu, /ședere/iu, /sală/iu, /sport/iu]) ||
+    !hasAny(workSport, [/fiecare\s+(alegere|activitate)/iu, /cerințe\s+diferite/iu])
+  ) {
+    findings.push(makeFinding("warn", "Activity-specific clarification framing is weak"));
   }
 
   if (!hasAll(teachBack, [/teach-back/iu, /durer/iu, /clinician/iu])) {

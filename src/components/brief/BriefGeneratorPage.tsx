@@ -4,19 +4,17 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   AlertTriangle,
   BriefcaseBusiness,
+  Download,
   FileText,
   ListChecks,
-  Printer,
   ShieldCheck,
   UserRound
 } from "lucide-react";
 
-import { EvidenceBoundaryLayer } from "@/components/safety/EvidenceBoundaryLayer";
 import { demoPatients } from "@/data/demoPatients";
 import { type DemoJournalEntry, seededJournalEntries } from "@/data/seededJournalEntries";
 import { demandProfiles } from "@/data/workVsSport";
 import {
-  consultationBriefSafetyStatement,
   formatTargetActivityLabel,
   generateConsultationBrief
 } from "@/lib/consultationBriefGenerator";
@@ -148,10 +146,67 @@ export function BriefGeneratorPage() {
     setTeachBackInput((current) => ({ ...current, [key]: value }));
   }
 
+  async function exportPdf() {
+    const { jsPDF } = await import("jspdf");
+    const pdf = new jsPDF({ unit: "pt", format: "a4" });
+    const margin = 44;
+    const maxWidth = 507;
+    let y = margin;
+
+    const addText = (text: string, options?: { size?: number; bold?: boolean; gap?: number }) => {
+      const size = options?.size ?? 10;
+      pdf.setFont("helvetica", options?.bold ? "bold" : "normal");
+      pdf.setFontSize(size);
+      const lines = pdf.splitTextToSize(text, maxWidth);
+      if (y + lines.length * (size + 4) > 785) {
+        pdf.addPage();
+        y = margin;
+      }
+      pdf.text(lines, margin, y);
+      y += lines.length * (size + 4) + (options?.gap ?? 10);
+    };
+
+    const addSection = (title: string, items: string[]) => {
+      addText(title, { size: 13, bold: true, gap: 6 });
+      items.forEach((item) => addText(`• ${item}`, { size: 10, gap: 4 }));
+      y += 8;
+    };
+
+    addText("SpineBridge - brief pentru consultatie", { size: 18, bold: true, gap: 12 });
+    addText(generatedBrief.safetyStatement, { size: 10, bold: true, gap: 16 });
+    addSection("1. Profil fictiv pacient", generatedBrief.patientProfile);
+    addSection("2. Context clinic deja stabilit de specialist", generatedBrief.specialistContext);
+    addSection("3. Restrictii comunicate", generatedBrief.restrictions);
+    addSection("4. Obiective functionale", generatedBrief.functionalGoals);
+    addSection(
+      "5. Jurnal simptome si activitate",
+      generatedBrief.journalRows.length > 0
+        ? generatedBrief.journalRows.map(
+            (entry) =>
+              `${entry.date}: ${formatTargetActivityLabel(entry.targetActivityType)}, durere ${entry.painBeforeActivity}->${entry.painAfterActivity}, mers ${entry.walkingMinutes} min, sedere ${entry.sittingMinutes} min, oboseala ${entry.fatigue}/10. ${entry.notes}`
+          )
+        : ["Nu exista intrari de jurnal pentru acest profil fictiv."]
+    );
+    addSection("6. Semne de alarma bifate", generatedBrief.redFlagStatus);
+    addSection("7. Neclaritati teach-back", [
+      `Scor claritate: ${generatedBrief.teachBackAnalysis.clarityScore}/100`,
+      generatedBrief.teachBackAnalysis.saferRephrasing,
+      ...generatedBrief.teachBackMisunderstandings
+    ]);
+    addSection("8. Intrebari pentru echipa clinica", generatedBrief.clinicianQuestions);
+    addSection("9. Ce nu decide aplicatia", generatedBrief.appNonDecisions);
+
+    const fileSafeName = selectedPatient.fictionalName
+      .replace(/[^a-z0-9]+/gi, "-")
+      .replace(/^-|-$/g, "")
+      .toLowerCase();
+    pdf.save(`spinebridge-brief-${fileSafeName || "demo"}.pdf`);
+  }
+
   return (
     <main className="brief-page min-h-screen overflow-hidden">
       <section className="no-print border-b border-ink/10">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:px-8 lg:py-16">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
           <div className="min-w-0">
             <div className="inline-flex items-center gap-2 rounded-panel border border-clinical/20 bg-white/80 px-3 py-2 text-sm font-bold text-clinical shadow-panel">
               <FileText aria-hidden="true" size={17} />
@@ -165,13 +220,6 @@ export function BriefGeneratorPage() {
               cerințe muncă/sport și restricții deja comunicate de clinician.
             </p>
           </div>
-
-          <aside className="rounded-panel border border-signal/20 bg-white p-5 shadow-soft">
-            <p className="text-sm font-black uppercase text-signal">Limită obligatorie</p>
-            <p className="mt-3 text-xl font-black leading-7 text-ink">
-              {consultationBriefSafetyStatement}
-            </p>
-          </aside>
         </div>
       </section>
 
@@ -214,11 +262,11 @@ export function BriefGeneratorPage() {
 
           <button
             className="focus-ring premium-transition flex w-full items-center justify-center gap-2 rounded-panel border border-ink bg-ink px-4 py-3 text-sm font-black text-white shadow-panel hover:-translate-y-0.5 hover:bg-clinical-deep hover:shadow-lift"
-            onClick={() => window.print()}
+            onClick={exportPdf}
             type="button"
           >
-            <Printer aria-hidden="true" size={18} />
-            Print / Save as PDF
+            <Download aria-hidden="true" size={18} />
+            Exportă PDF
           </button>
         </aside>
 
@@ -306,7 +354,7 @@ export function BriefGeneratorPage() {
           <header className="print-section border-b border-ink/10 pb-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <p className="text-sm font-black uppercase text-clinical">SpineBridge Live</p>
+                <p className="text-sm font-black uppercase text-clinical">SpineBridge</p>
                 <h1 className="text-safe-wrap mt-2 text-3xl font-black text-ink">
                   Brief pentru consultație
                 </h1>
@@ -438,8 +486,6 @@ export function BriefGeneratorPage() {
               </div>
               <TextList items={generatedBrief.appNonDecisions} />
             </SectionBlock>
-
-            <EvidenceBoundaryLayer compact surface="consultation-brief" />
           </div>
         </article>
       </section>

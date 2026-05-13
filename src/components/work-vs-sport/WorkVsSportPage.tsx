@@ -136,9 +136,9 @@ export function WorkVsSportPage() {
               Alege activitatea și vezi ce merită clarificat
             </h1>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-muted">
-              Condus, ședere, ridicare, alergare, sală sau sport de contact: fiecare activitate are
-              cerințe diferite. Munca și sportul rămân discuții separate, dar pagina se concentrează
-              pe activitatea aleasă.
+              Condus, ședere, ridicare, alergare, sală sau sport de contact: fiecare alegere schimbă
+              întrebările utile pentru consultație. Selectează o activitate și vezi ce detalii merită
+              pregătite înainte de discuție.
             </p>
           </div>
         </div>

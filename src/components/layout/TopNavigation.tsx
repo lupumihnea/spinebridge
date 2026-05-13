@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -22,24 +23,23 @@ const navigationItems = [
   { href: "/recovery-map", label: "Recovery Map", icon: BookOpenCheck },
   { href: "/journal", label: "Jurnal", icon: ClipboardList },
   { href: "/teach-back", label: "Teach-back", icon: MessageSquareText },
-  { href: "/work-vs-sport", label: "Activități", icon: Scale },
+  { href: "/activities", label: "Activități", icon: Scale },
   { href: "/brief", label: "Brief", icon: FileText },
   { href: "/about", label: "Despre", icon: Info }
 ];
 
 function SpineBridgeLogo() {
   return (
-    <span
-      aria-hidden="true"
-      className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-panel border border-clinical/25 bg-white shadow-panel"
-    >
-      <span className="absolute inset-x-2 top-1/2 h-4 -translate-y-1/2 rounded-b-full border-b-4 border-clinical" />
-      <span className="absolute left-2 top-3 h-1.5 w-1.5 rounded-full bg-clinical" />
-      <span className="absolute left-4 top-5 h-1.5 w-1.5 rounded-full bg-clinical-deep" />
-      <span className="absolute left-1/2 top-6 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-clay" />
-      <span className="absolute right-4 top-5 h-1.5 w-1.5 rounded-full bg-clinical-deep" />
-      <span className="absolute right-2 top-3 h-1.5 w-1.5 rounded-full bg-clinical" />
-      <span className="absolute bottom-2 left-1/2 h-5 w-px -translate-x-1/2 bg-ink/25" />
+    <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-panel border border-white/20 bg-white shadow-panel">
+      <Image
+        alt=""
+        aria-hidden="true"
+        className="h-full w-full object-contain p-1"
+        height={96}
+        priority
+        src="/brand/spinebridge-logo-mark.png"
+        width={96}
+      />
     </span>
   );
 }

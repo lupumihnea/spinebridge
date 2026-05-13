@@ -1,5 +1,5 @@
-import { WorkVsSportPage } from "@/components/work-vs-sport/WorkVsSportPage";
+import { redirect } from "next/navigation";
 
 export default function WorkVsSportRoute() {
-  return <WorkVsSportPage />;
+  redirect("/activities");
 }

@@ -109,3 +109,9 @@
 - Ran `npm run typecheck`, `npm test`, `npm run demo:check` with `100/100`, and `npm run build` successfully after this annotation pass; restarted the local dev server at `http://127.0.0.1:3000`.
 - Cleaned up remaining stale activity-page language in Jury Mode data and the live demo checklist so the demo now references the activity selector instead of the older work-versus-sport framing.
 - Reran `npm run typecheck`, `npm test`, `npm run demo:check` with `100/100`, and `npm run build` successfully before publishing the accumulated annotated design changes.
+- Added the supplied SpineBridge logo as a static brand asset, generated cropped hero and compact mark variants, placed the logo above the landing title, and replaced the handcrafted navigation mark in the upper-left header.
+- Ran `npm run typecheck`, `npm test`, and `npm run build` successfully after the logo update; restarted the local dev server and visually checked the landing/header logo placement at `http://127.0.0.1:3000`.
+- Applied the next annotation pass: nudged the landing logo toward the center of the hero composition, enriched the Teach-Back examples so they fill all response fields, redesigned the teach-back clarity circle as an animated score ring, and rewrote the explanation panel for a non-technical jury.
+- Added `/activities` as the user-facing activity selector route, kept `/work-vs-sport` as a redirect, removed the extra Consultation Brief safety/evidence panels, and replaced the brief print button with a direct PDF export using `jspdf`.
+- Updated the test script to run Vitest in a single worker for stability on Windows after adding PDF generation.
+- Ran `npm run typecheck`, `npm test`, `npm run demo:check` with `100/100`, and `npm run build` successfully; restarted the dev server and checked `/`, `/teach-back`, `/activities`, `/brief`, plus the `/work-vs-sport` redirect in the in-app browser.

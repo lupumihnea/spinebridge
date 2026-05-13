@@ -4,7 +4,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "SpineBridge Live",
+  title: "SpineBridge",
   description:
     "Simulator educațional în limba română pentru recuperare funcțională și dialog clinic."
 };

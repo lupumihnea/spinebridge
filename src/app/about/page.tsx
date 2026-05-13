@@ -21,9 +21,9 @@ import { ResearchMaturityLadder } from "@/components/research/ResearchMaturityLa
 import { frameworkDomains } from "@/data/framework";
 
 export const metadata: Metadata = {
-  title: "Despre / raționament academic | SpineBridge Live",
+  title: "Despre / raționament academic | SpineBridge",
   description:
-    "Raționamentul academic al aplicației SpineBridge Live, limitele populației vizate și agenda de validare viitoare."
+    "Raționamentul academic al aplicației SpineBridge, limitele populației vizate și agenda de validare viitoare."
 };
 
 interface SummaryCard {

@@ -40,7 +40,7 @@ http://127.0.0.1:3000/jury
 http://127.0.0.1:3000/
 http://127.0.0.1:3000/journal
 http://127.0.0.1:3000/teach-back
-http://127.0.0.1:3000/work-vs-sport
+http://127.0.0.1:3000/activities
 http://127.0.0.1:3000/brief
 http://127.0.0.1:3000/about
 ```
@@ -275,7 +275,7 @@ Final live click path:
 7. If the jury asks for the full product screens, open:
    - `/journal` for the full patient journal.
    - `/teach-back` for the teach-back analyzer.
-   - `/work-vs-sport` for the activity selector.
+   - `/activities` for the activity selector.
    - `/brief` for printable consultation brief.
    - `/about` for academic rationale.
 
